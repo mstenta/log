@@ -6,8 +6,6 @@ dependencies:
     - log
     - options
     - user
-_core:
-  default_config_hash: dYm465oSmDbAf6dw269CBm78i63x40SQHlp5kvc3DjY
 id: log_admin
 label: 'Log admin'
 module: views
@@ -15,7 +13,6 @@ description: 'Find and manage log entities.'
 tag: default
 base_table: log_field_data
 base_field: id
-core: 8.x
 display:
   default:
     display_plugin: default

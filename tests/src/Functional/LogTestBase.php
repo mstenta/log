@@ -73,10 +73,8 @@ abstract class LogTestBase extends BrowserTestBase {
     $storage = \Drupal::service('entity_type.manager')->getStorage('log');
     $entity = $storage->create($values + [
       'name' => $this->randomMachineName(),
-      'user_id' => $this->loggedInUser->id(),
       'created' => REQUEST_TIME,
       'type' => 'default',
-      'done' => TRUE,
     ]);
     return $entity;
   }
