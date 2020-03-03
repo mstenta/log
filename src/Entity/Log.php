@@ -198,6 +198,7 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ->setDescription(t('Timestamp of the event being logged.'))
       ->setDefaultValue(DrupalDateTime::createFromTimestamp(\Drupal::time()->getRequestTime(), DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
       ->setSettings([
         'datetime_type' => 'datetime',
       ])

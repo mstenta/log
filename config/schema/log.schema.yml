@@ -29,3 +29,11 @@ condition.plugin.log_type:
       type: sequence
       sequence:
         type: string
+
+views.sort.log_standard:
+  type: views_sort
+  label: 'Date sort'
+  mapping:
+    granularity:
+      type: string
+      label: 'Granularity'
