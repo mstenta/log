@@ -7,7 +7,7 @@
   "homepage": "https://www.drupal.org/project/log",
   "support": {
     "issues": "http://drupal.org/project/issues/log",
-    "source": "http://cgit.drupalcode.org/log"
+    "source": "https://git.drupalcode.org/project/log"
   },
   "suggest": {
     "drupal/token": "Enhance token UI support."
