@@ -37,3 +37,19 @@ views.sort.log_standard:
     granularity:
       type: string
       label: 'Granularity'
+
+action.configuration.log_clone_action:
+  type: action_configuration_default
+  label: 'Configuration for the log clone action'
+
+action.configuration.log_mark_as_done_action:
+  type: action_configuration_default
+  label: 'Configuration for the log mark as done action'
+
+action.configuration.log_mark_as_pending_action:
+  type: action_configuration_default
+  label: 'Configuration for the log mark as pending action'
+
+action.configuration.log_reschedule_action:
+  type: action_configuration_default
+  label: 'Configuration for the log reschedule action'
