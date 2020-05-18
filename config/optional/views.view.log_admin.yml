@@ -108,7 +108,7 @@ display:
               responsive: ''
             id:
               sortable: true
-              default_sort_order: asc
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -139,7 +139,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: '-1'
+          default: timestamp
           empty_table: true
       row:
         type: fields
