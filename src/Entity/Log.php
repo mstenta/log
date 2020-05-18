@@ -264,15 +264,11 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ->setDescription(t('The time that the log was created.'))
       ->setRevisionable(TRUE)
       ->setDefaultValueCallback(static::class . '::getRequestTime')
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'timestamp',
-        'weight' => 0,
-      ])
       ->setDisplayOptions('form', [
         'type' => 'datetime_timestamp',
         'weight' => 13,
       ])
+      ->setDisplayConfigurable('view', TRUE)
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
