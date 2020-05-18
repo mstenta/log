@@ -2,19 +2,12 @@
 
 namespace Drupal\Tests\log\Functional;
 
-use Drupal\log\Entity\Log;
-
 /**
  * Tests the Log CRUD.
  *
  * @group Log
  */
 class LogCRUDTest extends LogTestBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  protected $defaultTheme = 'stark';
 
   /**
    * Fields are displayed correctly.
@@ -45,13 +38,12 @@ class LogCRUDTest extends LogTestBase {
 
     $this->drupalPostForm('log/add/default', $edit, t('Save'));
 
-    $result = \Drupal::entityTypeManager()
-      ->getStorage('log')
+    $result = $this->storage
       ->getQuery()
       ->range(0, 1)
       ->execute();
     $log_id = reset($result);
-    $log = Log::load($log_id);
+    $log = $this->storage->load($log_id);
     $this->assertEquals($log->get('name')->value, $name, 'Log has been saved.');
 
     $assert_session->pageTextContains("Saved the $name log.");
@@ -107,7 +99,7 @@ class LogCRUDTest extends LogTestBase {
       '@entity-type' => $log->getEntityType()->getSingularLabel(),
       '%label' => $label,
     ]));
-    $this->assertNull(Log::load($log_id));
+    $this->assertNull($this->storage->load($log_id));
   }
 
 }

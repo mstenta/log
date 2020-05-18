@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\log\Functional;
 
-use Drupal\log\Entity\Log;
-
 /**
  * Tests the Log name pattern.
  *
@@ -12,23 +10,17 @@ use Drupal\log\Entity\Log;
 class LogNamePatternTest extends LogTestBase {
 
   /**
-   * {@inheritdoc}
-   */
-  protected $defaultTheme = 'stark';
-
-  /**
    * Tests creating a log entity without name.
    */
   public function testCreateLogWithoutName() {
     $this->drupalPostForm('log/add/name_pattern', [], t('Save'));
 
-    $result = \Drupal::entityTypeManager()
-      ->getStorage('log')
+    $result = $this->storage
       ->getQuery()
       ->range(0, 1)
       ->execute();
     $log_id = reset($result);
-    $log = Log::load($log_id);
+    $log = $this->storage->load($log_id);
     $this->assertEquals($log->label(), $log_id, 'Log name is the pattern and not the name.');
 
     $this->drupalGet($log->toUrl('canonical'));
@@ -47,13 +39,12 @@ class LogNamePatternTest extends LogTestBase {
 
     $this->drupalPostForm('log/add/name_pattern', $edit, t('Save'));
 
-    $result = \Drupal::entityTypeManager()
-      ->getStorage('log')
+    $result = $this->storage
       ->getQuery()
       ->range(0, 1)
       ->execute();
     $log_id = reset($result);
-    $log = Log::load($log_id);
+    $log = $this->storage->load($log_id);
     $this->assertEquals($log->get('name')->value, $name, 'Log name is the pattern and not the name.');
 
     $this->drupalGet($log->toUrl('canonical'));

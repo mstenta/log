@@ -2,12 +2,27 @@
 
 namespace Drupal\Tests\log\Functional;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests the Log CRUD.
  */
 abstract class LogTestBase extends BrowserTestBase {
+
+  use StringTranslationTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
+   * The log storage handler.
+   *
+   * @var \Drupal\group\Entity\Storage\GroupRoleStorageInterface
+   */
+  protected $storage;
 
   /**
    * Modules to install.
@@ -35,6 +50,9 @@ abstract class LogTestBase extends BrowserTestBase {
    */
   protected function setUp() {
     parent::setUp();
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = $this->container->get('entity_type.manager');
+    $this->storage = $entity_type_manager->getStorage('log');
     $this->adminUser = $this->drupalCreateUser($this->getAdministratorPermissions());
     $this->drupalLogin($this->adminUser);
     drupal_flush_all_caches();
@@ -70,10 +88,9 @@ abstract class LogTestBase extends BrowserTestBase {
    *   The log entity.
    */
   protected function createLogEntity(array $values = []) {
-    $storage = \Drupal::service('entity_type.manager')->getStorage('log');
-    $entity = $storage->create($values + [
+    $entity = $this->storage->create($values + [
       'name' => $this->randomMachineName(),
-      'created' => REQUEST_TIME,
+      'created' => \Drupal::time()->getRequestTime(),
       'type' => 'default',
     ]);
     return $entity;
