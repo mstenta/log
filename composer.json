@@ -21,5 +21,8 @@
   },
   "suggest": {
     "drupal/token": "Enhance token UI support."
+  },
+  "require-dev": {
+    "drupal/token": "^1.0"
   }
 }
