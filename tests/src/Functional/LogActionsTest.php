@@ -20,7 +20,7 @@ class LogActionsTest extends LogTestBase {
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
-      'timestamp' => DrupalDateTime::createFromTimestamp(386121600, DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+      'timestamp' => 386121600,
     ]);
     $log->save();
 
@@ -49,7 +49,7 @@ class LogActionsTest extends LogTestBase {
     foreach ($logs as $log) {
       $timestamps[] = $log->get('timestamp')->value;
     }
-    $this->assertEqual($timestamps, ['1982-03-28T00:00:00', '1981-12-03T00:00:00'], 'Timestamp on the new log has been updated.');
+    $this->assertEqual($timestamps, [386121600, 376146000], 'Timestamp on the new log has been updated.');
   }
 
   /**
@@ -63,13 +63,12 @@ class LogActionsTest extends LogTestBase {
     ];
     $expected_timestamps = [];
     foreach ($timestamps as $timestamp) {
-      $formatted_date = DrupalDateTime::createFromTimestamp($timestamp, DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
-      $expected_timestamps[] = $formatted_date;
+      $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
         'created' => \Drupal::time()->getRequestTime(),
         'done' => TRUE,
-        'timestamp' => $formatted_date,
+        'timestamp' => $timestamp,
       ]);
       $log->save();
     }
@@ -99,7 +98,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual(count($logs), 6, 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
-      $expected_timestamps[] = '1981-12-03T00:00:00';
+      $expected_timestamps[] = 376146000;
     }
     $log_timestamps = [];
     foreach ($logs as $log) {
@@ -116,7 +115,7 @@ class LogActionsTest extends LogTestBase {
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
-      'timestamp' => DrupalDateTime::createFromTimestamp(386121600, DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+      'timestamp' => 386121600,
     ]);
     $log->save();
 
@@ -133,7 +132,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit_clone = [];
     $edit_clone['date[month]'] = 01;
-    $edit_clone['date[year]'] = 2040;
+    $edit_clone['date[year]'] = 2037;
     $edit_clone['date[day]'] = 01;
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Reschedule'));
     $this->assertResponse(200);
@@ -143,7 +142,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
     $log = reset($logs);
-    $this->assertEqual($log->get('timestamp')->value, '2040-01-01T00:00:00', 'Timestamp on the log has changed.');
+    $this->assertEqual($log->get('timestamp')->value, '2114341200', 'Timestamp on the log has changed.');
     $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
   }
 
@@ -184,7 +183,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit_clone = [];
     $edit_clone['date[month]'] = 01;
-    $edit_clone['date[year]'] = 2040;
+    $edit_clone['date[year]'] = 2037;
     $edit_clone['date[day]'] = 01;
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Reschedule'));
     $this->assertResponse(200);
@@ -194,7 +193,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual(count($logs), 3, 'There are three logs in the system.');
     foreach ($logs as $log) {
-      $this->assertEqual($log->get('timestamp')->value, '2040-01-01T00:00:00', 'Timestamp on the log has changed.');
+      $this->assertEqual($log->get('timestamp')->value, '2114341200', 'Timestamp on the log has changed.');
       $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
     }
   }

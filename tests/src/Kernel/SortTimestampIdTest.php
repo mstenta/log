@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\log\Kernel;
 
-use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\Tests\log\Traits\LogCreationTrait;
 use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
 use Drupal\views\Tests\ViewTestData;
@@ -56,8 +54,8 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
     ViewTestData::createTestViews(get_class($this), ['log_test']);
 
     // Establish two different timestamps so the sort is meaningful.
-    $first_timestamp = DrupalDateTime::createFromTimestamp(376185600, DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
-    $second_timestamp = DrupalDateTime::createFromTimestamp(386121600, DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
+    $first_timestamp = 376185600;
+    $second_timestamp = 386121600;
 
     // Three entities is the minimum amount to test two with the same timestamp
     // and different ID and one with unique timestamp.

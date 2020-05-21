@@ -3,7 +3,6 @@
 namespace Drupal\log\Form;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Provides a log reschedule confirmation form.
@@ -48,7 +47,7 @@ class LogRescheduleActionForm extends LogActionFormBase {
       $count = count($this->logs);
       foreach ($this->logs as $log) {
         $log->get('status')->first()->applyTransitionById('to_pending');
-        $log->set('timestamp', $new_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT));
+        $log->set('timestamp', $new_date->getTimestamp());
         $log->save();
       }
       $this->messenger()->addMessage($this->formatPlural($count, 'Rescheduled 1 log.', 'Rescheduled @count logs.'));

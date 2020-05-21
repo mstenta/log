@@ -112,6 +112,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
       '#default_value' => new DrupalDateTime(),
       '#date_part_order' => ['month', 'day', 'year'],
       '#required' => TRUE,
+      '#date_year_range' => '1902:2037',
     ];
     return parent::buildForm($form, $form_state);
   }

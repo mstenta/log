@@ -3,7 +3,6 @@
 namespace Drupal\log\Form;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Provides a log clone confirmation form.
@@ -48,7 +47,7 @@ class LogCloneActionForm extends LogActionFormBase {
       $count = count($this->logs);
       foreach ($this->logs as $log) {
         $cloned_log = $log->createDuplicate();
-        $cloned_log->set('timestamp', $new_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT));
+        $cloned_log->set('timestamp', $new_date->getTimestamp());
         $cloned_log->save();
       }
       $this->messenger()->addMessage($this->formatPlural($count, 'Cloned 1 log.', 'Cloned @count logs.'));

@@ -193,28 +193,23 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ])
       ->setDisplayConfigurable('form', TRUE);
 
-    $fields['timestamp'] = BaseFieldDefinition::create('datetime')
+    $fields['timestamp'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Timestamp'))
       ->setDescription(t('Timestamp of the event being logged.'))
-      ->setDefaultValue(DrupalDateTime::createFromTimestamp(\Drupal::time()->getRequestTime(), DateTimeItemInterface::STORAGE_TIMEZONE)->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+      ->setDefaultValueCallback(static::class . '::getRequestTime')
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
-      ->setSettings([
-        'datetime_type' => 'datetime',
-      ])
       ->setDisplayOptions('view', [
         'label' => 'above',
-        'type' => 'datetime_default',
-        'settings' => [
-          'format_type' => 'medium',
-        ],
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
+        'type' => 'timestamp',
         'weight' => 10,
       ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_timestamp',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayConfigurable('form', TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('state')
       ->setLabel(t('Status'))
