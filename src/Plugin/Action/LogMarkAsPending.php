@@ -23,6 +23,7 @@ class LogMarkAsPending extends ActionBase {
   public function execute(LogInterface $log = NULL) {
     if ($log) {
       $log->get('status')->first()->applyTransitionById('to_pending');
+      $log->setNewRevision(TRUE);
       $log->save();
     }
   }

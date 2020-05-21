@@ -23,6 +23,7 @@ class LogMarkAsDone extends ActionBase {
   public function execute(LogInterface $log = NULL) {
     if ($log) {
       $log->get('status')->first()->applyTransitionById('done');
+      $log->setNewRevision(TRUE);
       $log->save();
     }
   }
