@@ -32,11 +32,15 @@ condition.plugin.log_type:
 
 views.sort.log_standard:
   type: views_sort
-  label: 'Date sort'
+  label: 'Timestamp sort'
   mapping:
     granularity:
       type: string
       label: 'Granularity'
+
+views.field.log_field:
+  type: views.field.field
+  label: 'Timestamp sort'
 
 action.configuration.log_clone_action:
   type: action_configuration_default
