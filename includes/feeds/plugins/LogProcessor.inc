@@ -108,8 +108,8 @@ class LogProcessor extends FeedsProcessor {
   /**
    * Validates a log.
    */
-  protected function entityValidate($entity) {
-    parent::entityValidate($entity);
+  protected function entityValidate($entity, FeedsSource $source = NULL) {
+    parent::entityValidate($entity, $source);
 
     if (!isset($entity->uid) || !is_numeric($entity->uid)) {
       $entity->uid = $this->config['author'];
