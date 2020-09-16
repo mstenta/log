@@ -210,6 +210,8 @@ function log_form(array $form, array &$form_state, Log $log) {
  *   The form state array.
  */
 function log_form_validate(array $form, array &$form_state) {
+  $log = (object) $form_state['values']['log'];
+  field_attach_form_validate('log', $log, $form, $form_state);
 
   // If a new log is marked "done", but the timestamp is in the future, display
   // a warning, but allow the user to continue if they submit the form again.
