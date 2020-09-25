@@ -49,6 +49,7 @@ use Drupal\user\EntityOwnerTrait;
  *     },
  *   },
  *   base_table = "log",
+ *   data_table = "log_field_data",
  *   revision_table = "log_revision",
  *   translatable = TRUE,
  *   revisionable = TRUE,
