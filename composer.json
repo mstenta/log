@@ -9,12 +9,6 @@
     "issues": "http://drupal.org/project/issues/log",
     "source": "https://git.drupalcode.org/project/log"
   },
-  "repositories": {
-    "drupal": {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
-    }
-  },
   "require": {
     "drupal/entity": "^1.0",
     "drupal/state_machine": "^1.0"
