@@ -2,12 +2,10 @@
 
 namespace Drupal\log\Entity;
 
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
 use Drupal\user\EntityOwnerTrait;
 

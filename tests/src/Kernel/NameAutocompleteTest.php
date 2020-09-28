@@ -93,15 +93,15 @@ class NameAutocompleteTest extends EntityKernelTestBase {
     // Create the different log entries.
     $this->logs[] = $this->createLogEntity([
       'name' => 'First log',
-      'uid' => $this->adminAccount->id()
+      'uid' => $this->adminAccount->id(),
     ]);
     $this->logs[] = $this->createLogEntity([
       'name' => 'Second log',
-      'uid' => $this->adminAccount->id()
+      'uid' => $this->adminAccount->id(),
     ]);
     $this->logs[] = $this->createLogEntity([
       'name' => 'Third log',
-      'uid' => $this->ownAccount->id()
+      'uid' => $this->ownAccount->id(),
     ]);
   }
 
@@ -181,11 +181,11 @@ class NameAutocompleteTest extends EntityKernelTestBase {
     // Add a duplicate log that should be on top of the results.
     $this->logs[] = $this->createLogEntity([
       'name' => 'Z log',
-      'uid' => $this->adminAccount->id()
+      'uid' => $this->adminAccount->id(),
     ]);
     $this->logs[] = $this->createLogEntity([
       'name' => 'Z log',
-      'uid' => $this->adminAccount->id()
+      'uid' => $this->adminAccount->id(),
     ]);
 
     $this->container->get('current_user')->setAccount($this->adminAccount);

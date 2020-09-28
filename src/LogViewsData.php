@@ -15,10 +15,6 @@ class LogViewsData extends EntityViewsData {
   public function getViewsData() {
     $data = parent::getViewsData();
 
-    // @todo
-    // Consider integrating reverse views relationships in the future.
-    // @see https://www.drupal.org/project/drupal/issues/2706431
-
     $data['log_field_data']['timestamp']['sort']['id'] = 'log_standard';
     $data['log_field_data']['timestamp']['field']['id'] = 'log_field';
 
