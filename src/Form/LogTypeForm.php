@@ -3,6 +3,7 @@
 namespace Drupal\log\Form;
 
 use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\state_machine\WorkflowManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -22,13 +23,23 @@ class LogTypeForm extends EntityForm {
   protected $workflowManager;
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructs a new LogTypeForm object.
    *
    * @param \Drupal\state_machine\WorkflowManagerInterface $workflow_manager
    *   The workflow manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
    */
-  public function __construct(WorkflowManagerInterface $workflow_manager) {
+  public function __construct(WorkflowManagerInterface $workflow_manager, ModuleHandlerInterface $module_handler) {
     $this->workflowManager = $workflow_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -36,7 +47,8 @@ class LogTypeForm extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('plugin.manager.workflow')
+      $container->get('plugin.manager.workflow'),
+      $container->get('module_handler')
     );
   }
 
@@ -95,7 +107,7 @@ class LogTypeForm extends EntityForm {
       '#default_value' => $log_type->shouldCreateNewRevision(),
     ];
 
-    if (\Drupal::service('module_handler')->moduleExists('token')) {
+    if ($this->moduleHandler->moduleExists('token')) {
       $form['token_help'] = [
         '#theme' => 'token_tree_link',
         '#token_types' => ['log'],
