@@ -43,7 +43,7 @@ class LogStorage extends SqlContentEntityStorage {
         [],
         new BubbleableMetadata()
       );
-      // Only act if the syste is actually changing anything.
+      // Only act if the system is actually changing anything.
       if ($old_name != $new_name) {
         $entity->set('name', $new_name);
         $entity->save();
