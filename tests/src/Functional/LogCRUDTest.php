@@ -2,12 +2,16 @@
 
 namespace Drupal\Tests\log\Functional;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
 /**
  * Tests the Log CRUD.
  *
  * @group Log
  */
 class LogCRUDTest extends LogTestBase {
+
+  use StringTranslationTrait;
 
   /**
    * Fields are displayed correctly.
@@ -36,7 +40,7 @@ class LogCRUDTest extends LogTestBase {
       'name[0][value]' => $name,
     ];
 
-    $this->drupalPostForm('log/add/default', $edit, t('Save'));
+    $this->drupalPostForm('log/add/default', $edit, $this->t('Save'));
 
     $result = $this->storage
       ->getQuery()
@@ -79,7 +83,7 @@ class LogCRUDTest extends LogTestBase {
     $edit = [
       'name[0][value]' => $this->randomMachineName(),
     ];
-    $this->drupalPostForm($log->toUrl('edit-form'), $edit, t('Save'));
+    $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
 
     $this->assertText($edit['name[0][value]']);
   }
@@ -94,8 +98,8 @@ class LogCRUDTest extends LogTestBase {
     $label = $log->getName();
     $log_id = $log->id();
 
-    $this->drupalPostForm($log->toUrl('delete-form'), [], t('Delete'));
-    $this->assertRaw(t('The @entity-type %label has been deleted.', [
+    $this->drupalPostForm($log->toUrl('delete-form'), [], $this->t('Delete'));
+    $this->assertRaw($this->t('The @entity-type %label has been deleted.', [
       '@entity-type' => $log->getEntityType()->getSingularLabel(),
       '%label' => $label,
     ]));

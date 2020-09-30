@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\log\Functional;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
 /**
  * Tests the Log name pattern.
  *
@@ -9,11 +11,13 @@ namespace Drupal\Tests\log\Functional;
  */
 class LogNamePatternTest extends LogTestBase {
 
+  use StringTranslationTrait;
+
   /**
    * Tests creating a log entity without name.
    */
   public function testCreateLogWithoutName() {
-    $this->drupalPostForm('log/add/name_pattern', [], t('Save'));
+    $this->drupalPostForm('log/add/name_pattern', [], $this->t('Save'));
 
     $result = $this->storage
       ->getQuery()
@@ -37,7 +41,7 @@ class LogNamePatternTest extends LogTestBase {
       'name[0][value]' => $name,
     ];
 
-    $this->drupalPostForm('log/add/name_pattern', $edit, t('Save'));
+    $this->drupalPostForm('log/add/name_pattern', $edit, $this->t('Save'));
 
     $result = $this->storage
       ->getQuery()
@@ -62,7 +66,7 @@ class LogNamePatternTest extends LogTestBase {
     $edit = [
       'name[0][value]' => $this->randomMachineName(),
     ];
-    $this->drupalPostForm($log->toUrl('edit-form'), $edit, t('Save'));
+    $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
 
     $this->assertText($edit['name[0][value]']);
   }
