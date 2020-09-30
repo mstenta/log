@@ -8,7 +8,7 @@ use Drupal\state_machine\WorkflowManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LogTypeForm.
+ * Form controller for Log type entities.
  *
  * @package Drupal\log\Form
  */

@@ -27,7 +27,7 @@ class LogForm extends ContentEntityForm {
         ->count()
         ->execute();
       if ($num_of_logs > 0) {
-        $form['name']['widget'][0]['value']['#description'] = FieldFilteredMarkup::create($form['name']['widget'][0]['value']['#description'] . ' ' . $this->t('As you type, frequently used log names will be suggested.'));;
+        $form['name']['widget'][0]['value']['#description'] = FieldFilteredMarkup::create($form['name']['widget'][0]['value']['#description'] . ' ' . $this->t('As you type, frequently used log names will be suggested.'));
         $form['name']['widget'][0]['value']['#autocomplete_route_name'] = 'log.autocomplete.name';
         $form['name']['widget'][0]['value']['#autocomplete_route_parameters'] = ['log_bundle' => $log->bundle()];
       }

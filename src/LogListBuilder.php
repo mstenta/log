@@ -26,7 +26,7 @@ class LogListBuilder extends BulkFormEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\log\Entity\LogInterface */
+    /** @var \Drupal\log\Entity\LogInterface $entity */
     $row['id'] = ['#markup' => $entity->id()];
     $row['name'] = $entity->toLink($entity->label(), 'canonical')->toRenderable();
     $row['type'] = ['#markup' => $entity->getBundleLabel()];
