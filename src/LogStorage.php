@@ -24,15 +24,13 @@ class LogStorage extends SqlContentEntityStorage {
       $this->invokeTranslationHooks($entity);
     }
 
-    // Calculate whether the entity needs a name pattern.
-    $name_pattern = $entity->getTypeNamePattern();
-    $entity_needs_name_pattern = $entity->get('name')->isEmpty() && !empty($name_pattern);
-
     parent::doPostSave($entity, $update);
 
+    // If the log name is empty, check to see if the log type has a name pattern
+    // for auto-generating a log name.
     // It is not up to this moment that the entity has an id, so the patterns
     // that contain an id need to be here.
-    if ($entity_needs_name_pattern) {
+    if ($entity->get('name')->isEmpty() && $name_pattern = $entity->getTypeNamePattern()) {
       $old_name = $entity->get('name')->value;
       // Pass in an empty bubbleable metadata object, so we can avoid starting a
       // renderer, for example if this happens in a REST resource creating
