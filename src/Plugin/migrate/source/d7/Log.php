@@ -2,6 +2,7 @@
 
 namespace Drupal\log\Plugin\migrate\source\d7;
 
+use Drupal\migrate\Row;
 use Drupal\migrate_drupal\Plugin\migrate\source\d7\FieldableEntity;
 
 /**
@@ -45,6 +46,21 @@ class Log extends FieldableEntity {
       'done' => $this->t('Boolean indicating whether the log is done (the event happened)'),
     ];
     return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow(Row $row) {
+    $id = $row->getSourceProperty('id');
+    $type = $row->getSourceProperty('type');
+
+    // Get Field API field values.
+    foreach ($this->getFields('log', $type) as $field_name => $field) {
+      $row->setSourceProperty($field_name, $this->getFieldValues('log', $field_name, $id));
+    }
+
+    return parent::prepareRow($row);
   }
 
   /**
