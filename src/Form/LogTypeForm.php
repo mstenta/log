@@ -83,14 +83,16 @@ class LogTypeForm extends EntityForm {
       '#default_value' => $log_type->getDescription(),
     ];
 
-    // Name pattern is displayed even if the token module is not enabled because
-    // the actual token replacement happens in core now.
     $form['name_pattern'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name pattern'),
       '#maxlength' => 255,
       '#default_value' => $log_type->getNamePattern(),
       '#description' => $this->t('When filled in, log names of this type will be auto-generated using this naming pattern. Leave empty for not auto generating log names.'),
+    ];
+    $form['token_help'] = [
+      '#theme' => 'token_tree_link',
+      '#token_types' => ['log'],
     ];
 
     $form['workflow'] = [
@@ -106,13 +108,6 @@ class LogTypeForm extends EntityForm {
       '#title' => $this->t('Create new revision'),
       '#default_value' => $log_type->shouldCreateNewRevision(),
     ];
-
-    if ($this->moduleHandler->moduleExists('token')) {
-      $form['token_help'] = [
-        '#theme' => 'token_tree_link',
-        '#token_types' => ['log'],
-      ];
-    }
 
     return $form;
   }

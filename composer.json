@@ -11,12 +11,7 @@
   },
   "require": {
     "drupal/entity": "^1.0",
-    "drupal/state_machine": "^1.0"
-  },
-  "suggest": {
-    "drupal/token": "Enhance token UI support."
-  },
-  "require-dev": {
+    "drupal/state_machine": "^1.0",
     "drupal/token": "^1.0"
   }
 }
