@@ -197,7 +197,6 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ->setDescription(t('Timestamp of the event being logged.'))
       ->setDefaultValueCallback(static::class . '::getRequestTime')
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'timestamp',
@@ -214,7 +213,6 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ->setLabel(t('Status'))
       ->setDescription(t('Indicates the status of the log.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('view', [
         'label' => 'hidden',
