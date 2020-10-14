@@ -87,8 +87,9 @@ class LogTypeForm extends EntityForm {
       '#type' => 'textfield',
       '#title' => $this->t('Name pattern'),
       '#maxlength' => 255,
-      '#default_value' => $log_type->getNamePattern(),
+      '#default_value' => $log_type->getNamePattern() ?: 'Log [log:id]',
       '#description' => $this->t('When filled in, log names of this type will be auto-generated using this naming pattern. Leave empty for not auto generating log names.'),
+      '#required' => TRUE,
     ];
     $form['token_help'] = [
       '#theme' => 'token_tree_link',
