@@ -38,11 +38,11 @@ use Drupal\Core\Entity\EntityStorageInterface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/log_type/{log_type}",
- *     "add-form" = "/admin/structure/log_type/add",
- *     "edit-form" = "/admin/structure/log_type/{log_type}/edit",
- *     "delete-form" = "/admin/structure/log_type/{log_type}/delete",
- *     "collection" = "/admin/structure/log_type"
+ *     "canonical" = "/admin/structure/log-type/{log_type}",
+ *     "add-form" = "/admin/structure/log-type/add",
+ *     "edit-form" = "/admin/structure/log-type/{log_type}/edit",
+ *     "delete-form" = "/admin/structure/log-type/{log_type}/delete",
+ *     "collection" = "/admin/structure/log-type"
  *   },
  *   config_export = {
  *     "id",
