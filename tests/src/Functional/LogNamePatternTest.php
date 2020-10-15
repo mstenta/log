@@ -17,7 +17,10 @@ class LogNamePatternTest extends LogTestBase {
    * Tests creating a log entity without name.
    */
   public function testCreateLogWithoutName() {
-    $this->drupalPostForm('log/add/name_pattern', [], $this->t('Save'));
+    $edit = [
+      'status' => 'done',
+    ];
+    $this->drupalPostForm('log/add/name_pattern', $edit, $this->t('Save'));
 
     $result = $this->storage
       ->getQuery()
@@ -25,7 +28,7 @@ class LogNamePatternTest extends LogTestBase {
       ->execute();
     $log_id = reset($result);
     $log = $this->storage->load($log_id);
-    $this->assertEquals($log->label(), $log_id, 'Log name is the pattern and not the name.');
+    $this->assertEquals($log->label(), $log_id . ' done', 'Log name is the pattern and not the name.');
 
     $this->drupalGet($log->toUrl('canonical'));
     $this->assertResponse(200);
@@ -63,12 +66,28 @@ class LogNamePatternTest extends LogTestBase {
     $log = $this->createLogEntity(['type' => 'name_pattern']);
     $log->save();
 
+    // Test that a manually set name does not get overwritten.
     $edit = [
       'name[0][value]' => $this->randomMachineName(),
     ];
     $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
-
     $this->assertText($edit['name[0][value]']);
+
+    // Test that clearing the name forces it to be auto-generated.
+    $edit = [
+      'name[0][value]' => '',
+      'status' => 'pending',
+    ];
+    $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
+    $this->assertText($log->id() . ' pending');
+
+    // Test that updating a log with an auto-generated name automatically
+    // updates the name.
+    $edit = [
+      'status' => 'done',
+    ];
+    $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
+    $this->assertText($log->id() . ' done');
   }
 
 }
