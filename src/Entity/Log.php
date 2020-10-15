@@ -213,6 +213,7 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
       ->setLabel(t('Status'))
       ->setDescription(t('Indicates the status of the log.'))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('view', [
         'label' => 'hidden',
