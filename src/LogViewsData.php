@@ -2,7 +2,7 @@
 
 namespace Drupal\log;
 
-use Drupal\views\EntityViewsData;
+use Drupal\entity\EntityViewsData;
 
 /**
  * Provides views data for the file entity type.
