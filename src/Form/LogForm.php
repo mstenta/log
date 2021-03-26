@@ -34,7 +34,7 @@ class LogForm extends ContentEntityForm {
   protected $dateFormatter;
 
   /**
-   * Constructs a NodeForm object.
+   * Constructs a LogForm object.
    *
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
