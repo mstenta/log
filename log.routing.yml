@@ -10,7 +10,7 @@ log.log_clone_action_form:
   defaults:
     _form: 'Drupal\log\Form\LogCloneActionForm'
   requirements:
-    _permission: 'administer log'
+    _entity_create_any_access: 'log'
 
 log.log_schedule_action_form:
   path: '/admin/content/log/reschedule'
