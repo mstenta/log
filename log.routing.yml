@@ -17,4 +17,4 @@ log.log_schedule_action_form:
   defaults:
     _form: 'Drupal\log\Form\LogRescheduleActionForm'
   requirements:
-    _permission: 'administer log'
+    _user_is_logged_in: 'TRUE'

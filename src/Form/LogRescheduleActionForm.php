@@ -121,14 +121,27 @@ class LogRescheduleActionForm extends LogActionFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    if ($form_state->getValue('confirm') && !empty($this->logs)) {
-      $count = count($this->logs);
+
+    // Filter out logs the user doesn't have access to.
+    $inaccessible_logs = [];
+    $accessible_logs = [];
+    $current_user = $this->currentUser();
+    foreach ($this->logs as $log) {
+      if (!$log->get('status')->access('edit', $current_user) || !$log->access('update', $current_user)) {
+        $inaccessible_logs[] = $log;
+        continue;
+      }
+      $accessible_logs[] = $log;
+    }
+
+    if ($form_state->getValue('confirm') && !empty($accessible_logs)) {
+      $count = count($accessible_logs);
       $type_of_date = $form_state->getValue('type_of_date');
       if ($type_of_date) {
         $amount = $form_state->getValue('amount');
         $time = $form_state->getValue('time');
         $sign = ($amount >= 0) ? '+' : '';
-        foreach ($this->logs as $log) {
+        foreach ($accessible_logs as $log) {
           $new_date = new DrupalDateTime();
           $new_date->setTimestamp($log->get('timestamp')->value);
           $new_date->modify("$sign$amount $time");
@@ -143,7 +156,7 @@ class LogRescheduleActionForm extends LogActionFormBase {
       else {
         /** @var \Drupal\Core\Datetime\DrupalDateTime $new_date */
         $new_date = $form_state->getValue('date');
-        foreach ($this->logs as $log) {
+        foreach ($accessible_logs as $log) {
           if ($log->get('status')->first()->isTransitionAllowed('to_pending')) {
             $log->get('status')->first()->applyTransitionById('to_pending');
           }
@@ -153,6 +166,12 @@ class LogRescheduleActionForm extends LogActionFormBase {
         }
       }
       $this->messenger()->addMessage($this->formatPlural($count, 'Rescheduled 1 log.', 'Rescheduled @count logs.'));
+    }
+
+    // Add warning message if there were inaccessible logs.
+    if (!empty($inaccessible_logs)) {
+      $inaccessible_count = count($inaccessible_logs);
+      $this->messenger()->addWarning($this->formatPlural($inaccessible_count, 'Could not reschedule @count log because you do not have the necessary permissions.', 'Could not reschedule @count logs because you do not have the necessary permissions.'));
     }
 
     parent::submitForm($form, $form_state);
