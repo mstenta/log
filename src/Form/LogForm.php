@@ -151,7 +151,8 @@ class LogForm extends ContentEntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
-    $this->messenger()->addMessage($this->t('Saved the %label log.', ['%label' => $this->entity->label()]));
+    $entity_url = $this->entity->toUrl()->setAbsolute()->toString();
+    $this->messenger()->addMessage($this->t('Saved log: <a href=":url">%label</a>', [':url' => $entity_url, '%label' => $this->entity->label()]));
     $form_state->setRedirectUrl($this->entity->toUrl());
   }
 
