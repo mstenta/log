@@ -82,10 +82,7 @@ abstract class LogActionBase extends ActionBase implements DependentPluginInterf
    */
   public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\log\Entity\LogInterface $object */
-    $result = $object->get('status')->access('edit', $account, TRUE)
-      ->andIf($object->access('update', $account, TRUE));
-
-    return $return_as_object ? $result : $result->isAllowed();
+    return $object->access('update', $account, $return_as_object);
   }
 
   /**
