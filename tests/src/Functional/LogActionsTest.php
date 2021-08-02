@@ -13,11 +13,13 @@ class LogActionsTest extends LogTestBase {
    * Tests cloning a single log.
    */
   public function testCloneSingleLog() {
+    $timestamp = \Drupal::time()->getRequestTime();
+
     $log = $this->createLogEntity([
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
-      'timestamp' => 386121600,
+      'timestamp' => $timestamp,
     ]);
     $log->save();
 
@@ -32,10 +34,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Are you sure you want to clone this log?'));
     $this->assertText($this->t('New date'));
 
+    $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
+
     $edit_clone = [];
-    $edit_clone['date[month]'] = 12;
-    $edit_clone['date[year]'] = 1981;
-    $edit_clone['date[day]'] = 3;
+    $edit_clone['date[month]'] = date('n', $new_timestamp);
+    $edit_clone['date[year]'] = date('Y', $new_timestamp);
+    $edit_clone['date[day]'] = date('j', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -46,20 +50,19 @@ class LogActionsTest extends LogTestBase {
     foreach ($logs as $log) {
       $timestamps[] = $log->get('timestamp')->value;
     }
-    $this->assertEqual($timestamps, [386121600, 376146000], 'Timestamp on the new log has been updated.');
+    $this->assertEqual($timestamps, [$timestamp, $new_timestamp], 'Timestamp on the new log has been updated.');
   }
 
   /**
    * Tests cloning multiple logs.
    */
   public function testCloneMultipleLogs() {
-    $timestamps = [
-      386121600,
-      286121600,
-      186121600,
-    ];
+    $timestamps = [];
     $expected_timestamps = [];
-    foreach ($timestamps as $timestamp) {
+    $timestamp = \Drupal::time()->getRequestTime();
+    for ($i = 0; $i < 3; $i++) {
+      $timestamp = strtotime('+1 day', $timestamp);
+      $timestamps[] = $timestamp;
       $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
@@ -83,10 +86,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Are you sure you want to clone these logs?'));
     $this->assertText($this->t('New date'));
 
+    $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
+
     $edit_clone = [];
-    $edit_clone['date[month]'] = 12;
-    $edit_clone['date[year]'] = 1981;
-    $edit_clone['date[day]'] = 3;
+    $edit_clone['date[month]'] = date('n', $new_timestamp);
+    $edit_clone['date[year]'] = date('Y', $new_timestamp);
+    $edit_clone['date[day]'] = date('j', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -95,7 +100,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual(count($logs), 6, 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
-      $expected_timestamps[] = 376146000;
+      $expected_timestamps[] = $new_timestamp;
     }
     $log_timestamps = [];
     foreach ($logs as $log) {
@@ -108,11 +113,13 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling a single log to an absolute date.
    */
   public function testRescheduleSingleLogAbsolute() {
+    $timestamp = \Drupal::time()->getRequestTime();
+
     $log = $this->createLogEntity([
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
-      'timestamp' => 386121600,
+      'timestamp' => $timestamp,
     ]);
     $log->save();
 
@@ -127,10 +134,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Are you sure you want to reschedule this log?'));
     $this->assertText($this->t('New date'));
 
+    $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
+
     $edit_reschedule = [];
-    $edit_reschedule['date[month]'] = 01;
-    $edit_reschedule['date[year]'] = 2037;
-    $edit_reschedule['date[day]'] = 01;
+    $edit_reschedule['date[month]'] = date('n', $new_timestamp);
+    $edit_reschedule['date[year]'] = date('Y', $new_timestamp);
+    $edit_reschedule['date[day]'] = date('j', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -139,7 +148,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
     $log = reset($logs);
-    $this->assertEqual($log->get('timestamp')->value, '2114341200', 'Timestamp on the log has changed.');
+    $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
     $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
   }
 
@@ -147,13 +156,12 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling multiple logs to an absolute date.
    */
   public function testRescheduleMultipleLogsAbsolute() {
-    $timestamps = [
-      386121600,
-      286121600,
-      186121600,
-    ];
+    $timestamps = [];
     $expected_timestamps = [];
-    foreach ($timestamps as $timestamp) {
+    $timestamp = \Drupal::time()->getRequestTime();
+    for ($i = 0; $i < 3; $i++) {
+      $timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
+      $timestamps[] = $timestamp;
       $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
@@ -177,10 +185,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Are you sure you want to reschedule these logs?'));
     $this->assertText($this->t('New date'));
 
+    $new_timestamp = strtotime('+1 day', $timestamp);
+
     $edit_reschedule = [];
-    $edit_reschedule['date[month]'] = 01;
-    $edit_reschedule['date[year]'] = 2037;
-    $edit_reschedule['date[day]'] = 01;
+    $edit_reschedule['date[month]'] = date('n', $new_timestamp);
+    $edit_reschedule['date[year]'] = date('Y', $new_timestamp);
+    $edit_reschedule['date[day]'] = date('j', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -189,7 +199,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual(count($logs), 3, 'There are three logs in the system.');
     foreach ($logs as $log) {
-      $this->assertEqual($log->get('timestamp')->value, '2114341200', 'Timestamp on the log has changed.');
+      $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
       $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
     }
   }
@@ -198,11 +208,13 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling a single log to an relative date.
    */
   public function testRescheduleSingleLogRelative() {
+    $timestamp = \Drupal::time()->getRequestTime();
+
     $log = $this->createLogEntity([
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
-      'timestamp' => 386121600,
+      'timestamp' => $timestamp,
     ]);
     $log->save();
 
@@ -224,6 +236,8 @@ class LogActionsTest extends LogTestBase {
     $this->assertUrl('admin/content/log/reschedule');
     $this->assertText($this->t('Please enter the amount of time for rescheduling.'));
 
+    $new_timestamp = strtotime('+1 day', $timestamp);
+
     $edit_reschedule = [];
     $edit_reschedule['type_of_date'] = 1;
     $edit_reschedule['amount'] = 1;
@@ -236,7 +250,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
     $log = reset($logs);
-    $this->assertEqual($log->get('timestamp')->value, '386208000', 'Timestamp on the log has changed.');
+    $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
     $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
   }
 
@@ -244,17 +258,14 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling multiple logs to an relative date.
    */
   public function testRescheduleMultipleLogsRelative() {
-    $timestamps = [
-      386121600,
-      286121600,
-      186121600,
-    ];
-    $expected_timestamps = [
-      383702400,
-      283443200,
-      183446800,
-    ];
-    foreach ($timestamps as $timestamp) {
+    $timestamp = \Drupal::time()->getRequestTime();
+    $timestamps = [];
+    $expected_timestamps = [];
+    for ($i = 0; $i < 3; $i++) {
+      $timestamp = strtotime('+1 day', $timestamp);
+      $new_timestamp = strtotime('-1 month', $timestamp);
+      $timestamps[] = $timestamp;
+      $expected_timestamps[] = $new_timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
         'created' => \Drupal::time()->getRequestTime(),
