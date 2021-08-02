@@ -127,7 +127,7 @@ class LogRescheduleActionForm extends LogActionFormBase {
     $accessible_logs = [];
     $current_user = $this->currentUser();
     foreach ($this->logs as $log) {
-      if (!$log->get('status')->access('edit', $current_user) || !$log->access('update', $current_user)) {
+      if (!$log->get('timestamp')->access('edit', $current_user) || !$log->get('status')->access('edit', $current_user) || !$log->access('update', $current_user)) {
         $inaccessible_logs[] = $log;
         continue;
       }
