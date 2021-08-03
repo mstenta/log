@@ -121,6 +121,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $this->tempStoreFactory->get($this->actionId)->delete($this->user->id());
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
 
