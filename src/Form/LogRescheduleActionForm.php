@@ -132,7 +132,9 @@ class LogRescheduleActionForm extends LogActionFormBase {
           $new_date = new DrupalDateTime();
           $new_date->setTimestamp($log->get('timestamp')->value);
           $new_date->modify("$sign$amount $time");
-          $log->get('status')->first()->applyTransitionById('to_pending');
+          if ($log->get('status')->first()->isTransitionAllowed('to_pending')) {
+            $log->get('status')->first()->applyTransitionById('to_pending');
+          }
           $log->set('timestamp', $new_date->getTimestamp());
           $log->setNewRevision(TRUE);
           $log->save();
@@ -142,7 +144,9 @@ class LogRescheduleActionForm extends LogActionFormBase {
         /** @var \Drupal\Core\Datetime\DrupalDateTime $new_date */
         $new_date = $form_state->getValue('date');
         foreach ($this->logs as $log) {
-          $log->get('status')->first()->applyTransitionById('to_pending');
+          if ($log->get('status')->first()->isTransitionAllowed('to_pending')) {
+            $log->get('status')->first()->applyTransitionById('to_pending');
+          }
           $log->set('timestamp', $new_date->getTimestamp());
           $log->setNewRevision(TRUE);
           $log->save();
