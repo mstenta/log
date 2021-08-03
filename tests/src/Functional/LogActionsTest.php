@@ -26,7 +26,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_clone_action';
-    $edit['entities[1]'] = TRUE;
+    $edit['log_bulk_form[0]'] = TRUE;
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
     $this->assertText($this->t('Are you sure you want to clone this log?'));
@@ -75,8 +75,8 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_clone_action';
-    for ($i = 1; $i <= 3; $i++) {
-      $edit['entities[' . $i . ']'] = TRUE;
+    for ($i = 0; $i < 3; $i++) {
+      $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
@@ -121,7 +121,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
-    $edit['entities[1]'] = TRUE;
+    $edit['log_bulk_form[0]'] = TRUE;
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
     $this->assertText($this->t('Are you sure you want to reschedule this log?'));
@@ -169,8 +169,8 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
-    for ($i = 1; $i <= 3; $i++) {
-      $edit['entities[' . $i . ']'] = TRUE;
+    for ($i = 0; $i < 3; $i++) {
+      $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
@@ -211,7 +211,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
-    $edit['entities[1]'] = TRUE;
+    $edit['log_bulk_form[0]'] = TRUE;
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
     $this->assertText($this->t('Are you sure you want to reschedule this log?'));
@@ -269,8 +269,8 @@ class LogActionsTest extends LogTestBase {
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
-    for ($i = 1; $i <= 3; $i++) {
-      $edit['entities[' . $i . ']'] = TRUE;
+    for ($i = 0; $i < 3; $i++) {
+      $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
     $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
     $this->assertResponse(200);
