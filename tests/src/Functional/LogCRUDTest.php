@@ -50,7 +50,7 @@ class LogCRUDTest extends LogTestBase {
     $log = $this->storage->load($log_id);
     $this->assertEquals($log->get('name')->value, $name, 'Log has been saved.');
 
-    $assert_session->pageTextContains("Saved the $name log.");
+    $assert_session->pageTextContains("Saved log: $name");
     $assert_session->pageTextContains($name);
   }
 
