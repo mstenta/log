@@ -110,7 +110,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
       '#type' => 'datelist',
       '#title' => $this->t('New date'),
       '#default_value' => new DrupalDateTime(),
-      '#date_part_order' => ['month', 'day', 'year'],
+      '#date_part_order' => ['year', 'month', 'day'],
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
     ];
