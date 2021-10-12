@@ -2,7 +2,13 @@
 
 namespace Drupal\log\Form;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\log\Event\LogEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Provides a log clone confirmation form.
@@ -15,6 +21,40 @@ class LogCloneActionForm extends LogActionFormBase {
    * @var string
    */
   protected $actionId = 'log_clone_action';
+
+  /**
+   * The event dispatcher service.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * Constructs a LogCloneActionForm form object.
+   *
+   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
+   *   The tempstore factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Session\AccountInterface $user
+   *   The current user.
+   */
+  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, AccountInterface $user, EventDispatcherInterface $event_dispatcher) {
+    parent::__construct($temp_store_factory, $entity_type_manager, $user);
+    $this->eventDispatcher = $event_dispatcher;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('tempstore.private'),
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('event_dispatcher'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -61,7 +101,11 @@ class LogCloneActionForm extends LogActionFormBase {
       foreach ($accessible_logs as $log) {
         $cloned_log = $log->createDuplicate();
         $cloned_log->set('timestamp', $new_date->getTimestamp());
-        $cloned_log->save();
+
+        // Dispatch the log_clone event.
+        $event = new LogEvent($cloned_log);
+        $this->eventDispatcher->dispatch($event, LogEvent::CLONE);
+        $event->log->save();
       }
       $this->messenger()->addMessage($this->formatPlural($count, 'Cloned 1 log.', 'Cloned @count logs.'));
     }

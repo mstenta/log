@@ -6,7 +6,7 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\log\Entity\LogInterface;
 
 /**
- * Event that is fired by log save and delete operation hooks.
+ * Event that is fired by log save, delete and clone operations.
  */
 class LogEvent extends Event {
 
@@ -14,6 +14,7 @@ class LogEvent extends Event {
   const INSERT = 'log_insert';
   const UPDATE = 'log_update';
   const DELETE = 'log_delete';
+  const CLONE = 'log_clone';
 
   /**
    * The Log entity.
