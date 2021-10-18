@@ -45,7 +45,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
   protected $logs;
 
   /**
-   * Constructs a LogCloneActionForm form object.
+   * Constructs a LogActionFormBase form object.
    *
    * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
    *   The tempstore factory.
