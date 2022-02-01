@@ -101,6 +101,7 @@ class LogCloneActionForm extends LogActionFormBase {
       foreach ($accessible_logs as $log) {
         $cloned_log = $log->createDuplicate();
         $cloned_log->set('timestamp', $new_date->getTimestamp());
+        $cloned_log->setRevisionLogMessage($form_state->getValue('revision_message'));
 
         // Dispatch the log_clone event.
         $event = new LogEvent($cloned_log);

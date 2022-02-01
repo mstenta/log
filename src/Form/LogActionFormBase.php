@@ -114,6 +114,13 @@ abstract class LogActionFormBase extends ConfirmFormBase {
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
     ];
+
+    $form['revision_message'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Revision message'),
+      '#description' => $this->t("Optionally add a message to describe this change. This will appear in the log's revisions."),
+      '#weight' => 10,
+    ];
     return parent::buildForm($form, $form_state);
   }
 

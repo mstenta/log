@@ -149,6 +149,7 @@ class LogRescheduleActionForm extends LogActionFormBase {
             $log->get('status')->first()->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
+          $log->setRevisionLogMessage($form_state->getValue('revision_message'));
           $log->setNewRevision(TRUE);
           $log->save();
         }
@@ -161,6 +162,7 @@ class LogRescheduleActionForm extends LogActionFormBase {
             $log->get('status')->first()->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
+          $log->setRevisionLogMessage($form_state->getValue('revision_message'));
           $log->setNewRevision(TRUE);
           $log->save();
         }
