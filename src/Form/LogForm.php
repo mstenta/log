@@ -81,7 +81,7 @@ class LogForm extends ContentEntityForm {
     $form += parent::form($form, $form_state);
 
     // Set autocomplete for log names.
-    if ($this->moduleHandler->moduleExists('views')) {
+    if (isset($form['name']) && $this->moduleHandler->moduleExists('views')) {
       $num_of_logs = $this->entityTypeManager->getStorage('log')
         ->getQuery()
         ->condition('type', $log->bundle())
