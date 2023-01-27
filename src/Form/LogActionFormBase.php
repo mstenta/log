@@ -107,12 +107,10 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['date'] = [
-      '#type' => 'datelist',
+      '#type' => 'datetime',
       '#title' => $this->t('New date'),
-      '#default_value' => new DrupalDateTime(),
-      '#date_part_order' => ['year', 'month', 'day'],
+      '#default_value' => new DrupalDateTime('midnight'),
       '#required' => TRUE,
-      '#date_year_range' => '-15:+15',
     ];
 
     $form['revision_message'] = [

@@ -37,9 +37,7 @@ class LogActionsTest extends LogTestBase {
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_clone = [];
-    $edit_clone['date[month]'] = date('n', $new_timestamp);
-    $edit_clone['date[year]'] = date('Y', $new_timestamp);
-    $edit_clone['date[day]'] = date('j', $new_timestamp);
+    $edit_clone['date[date]'] = date('Y-m-d', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -89,9 +87,7 @@ class LogActionsTest extends LogTestBase {
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_clone = [];
-    $edit_clone['date[month]'] = date('n', $new_timestamp);
-    $edit_clone['date[year]'] = date('Y', $new_timestamp);
-    $edit_clone['date[day]'] = date('j', $new_timestamp);
+    $edit_clone['date[date]'] = date('Y-m-d', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -137,9 +133,7 @@ class LogActionsTest extends LogTestBase {
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_reschedule = [];
-    $edit_reschedule['date[month]'] = date('n', $new_timestamp);
-    $edit_reschedule['date[year]'] = date('Y', $new_timestamp);
-    $edit_reschedule['date[day]'] = date('j', $new_timestamp);
+    $edit_reschedule['date[date]'] = date('Y-m-d', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
@@ -188,9 +182,7 @@ class LogActionsTest extends LogTestBase {
     $new_timestamp = strtotime('+1 day', $timestamp);
 
     $edit_reschedule = [];
-    $edit_reschedule['date[month]'] = date('n', $new_timestamp);
-    $edit_reschedule['date[year]'] = date('Y', $new_timestamp);
-    $edit_reschedule['date[day]'] = date('j', $new_timestamp);
+    $edit_reschedule['date[date]'] = date('Y-m-d', $new_timestamp);
     $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
     $this->assertResponse(200);
     $this->assertUrl('admin/content/log');
