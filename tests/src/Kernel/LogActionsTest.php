@@ -77,7 +77,7 @@ class LogActionsTest extends KernelTestBase {
     $action->execute($new_log);
     $storage = $this->container->get('entity_type.manager')->getStorage('log');
     $log = $storage->load($new_log->id());
-    $this->assertEqual($log->get('status')->value, 'done');
+    $this->assertEquals('done', $log->get('status')->value);
   }
 
   /**
@@ -94,7 +94,7 @@ class LogActionsTest extends KernelTestBase {
     $action->execute($new_log);
     $storage = $this->container->get('entity_type.manager')->getStorage('log');
     $log = $storage->load($new_log->id());
-    $this->assertEqual($log->get('status')->value, 'pending');
+    $this->assertEquals('pending', $log->get('status')->value);
   }
 
 }

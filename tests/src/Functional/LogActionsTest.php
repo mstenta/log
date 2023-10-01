@@ -24,7 +24,7 @@ class LogActionsTest extends LogTestBase {
     $log->save();
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
+    $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
     $edit['action'] = 'log_clone_action';
@@ -43,12 +43,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertUrl('admin/content/log');
     $this->assertText($this->t('Cloned 1 log'));
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual(count($logs), 2, 'There are two logs in the system.');
+    $this->assertEquals(2, count($logs), 'There are two logs in the system.');
     $timestamps = [];
     foreach ($logs as $log) {
       $timestamps[] = $log->get('timestamp')->value;
     }
-    $this->assertEqual($timestamps, [$timestamp, $new_timestamp], 'Timestamp on the new log has been updated.');
+    $this->assertEquals([$timestamp, $new_timestamp], $timestamps, 'Timestamp on the new log has been updated.');
   }
 
   /**
@@ -70,7 +70,7 @@ class LogActionsTest extends LogTestBase {
     }
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 3, 'There are three logs in the system.');
+    $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];
     $edit['action'] = 'log_clone_action';
@@ -92,7 +92,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Cloned 3 logs'));
 
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual(count($logs), 6, 'There are six logs in the system.');
+    $this->assertEquals(6, count($logs), 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
       $expected_timestamps[] = $new_timestamp;
     }
@@ -100,7 +100,7 @@ class LogActionsTest extends LogTestBase {
     foreach ($logs as $log) {
       $log_timestamps[] = $log->get('timestamp')->value;
     }
-    $this->assertEqual($log_timestamps, $expected_timestamps, 'Timestamp on the new logs has been updated.');
+    $this->assertEquals($expected_timestamps, $log_timestamps, 'Timestamp on the new logs has been updated.');
   }
 
   /**
@@ -118,7 +118,7 @@ class LogActionsTest extends LogTestBase {
     $log->save();
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
+    $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
@@ -138,10 +138,10 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Rescheduled 1 log'));
 
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
+    $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
     $log = reset($logs);
-    $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
-    $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
+    $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
+    $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
   }
 
   /**
@@ -163,7 +163,7 @@ class LogActionsTest extends LogTestBase {
     }
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 3, 'There are three logs in the system.');
+    $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
@@ -185,10 +185,10 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Rescheduled 3 logs'));
 
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual(count($logs), 3, 'There are three logs in the system.');
+    $this->assertEquals(3, count($logs), 'There are three logs in the system.');
     foreach ($logs as $log) {
-      $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
-      $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
+      $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
+      $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
     }
   }
 
@@ -207,7 +207,7 @@ class LogActionsTest extends LogTestBase {
     $log->save();
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
+    $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
@@ -236,10 +236,10 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Rescheduled 1 log'));
 
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual($num_of_logs, 1, 'There is one log in the system.');
+    $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
     $log = reset($logs);
-    $this->assertEqual($log->get('timestamp')->value, $new_timestamp, 'Timestamp on the log has changed.');
-    $this->assertEqual($log->get('status')->value, 'pending', 'Log has been set to pending.');
+    $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
+    $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
   }
 
   /**
@@ -262,7 +262,7 @@ class LogActionsTest extends LogTestBase {
     }
 
     $num_of_logs = $this->storage->getQuery()->count()->execute();
-    $this->assertEqual($num_of_logs, 3, 'There are three logs in the system.');
+    $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
@@ -284,12 +284,12 @@ class LogActionsTest extends LogTestBase {
     $this->assertText($this->t('Rescheduled 3 logs'));
 
     $logs = $this->storage->loadMultiple();
-    $this->assertEqual(count($logs), 3, 'There are three logs in the system.');
+    $this->assertEquals(3, count($logs), 'There are three logs in the system.');
     $log_timestamps = [];
     foreach ($logs as $log) {
       $log_timestamps[] = $log->get('timestamp')->value;
     }
-    $this->assertEqual($log_timestamps, $expected_timestamps, 'Logs have been rescheduled');
+    $this->assertEquals($expected_timestamps, $log_timestamps, 'Logs have been rescheduled');
   }
 
 }

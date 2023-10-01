@@ -147,25 +147,25 @@ class NameAutocompleteTest extends EntityKernelTestBase {
 
     // Tests admin account so it returns the complete set of logs.
     $result = $this->getAutocompleteResult('log');
-    $this->assertEqual(count($this->logs), count($result), 'Number of results for matching query and admin user is as expected.');
+    $this->assertEquals(count($this->logs), count($result), 'Number of results for matching query and admin user is as expected.');
 
     // With an account that has 'view any default log' permission, the result
     // should be the complete set of logs.
     $this->container->get('current_user')->setAccount($this->anyAccount);
     $result = $this->getAutocompleteResult('log');
-    $this->assertEqual(3, count($result), 'Number of results for matching query and user with view any permission is as expected.');
+    $this->assertEquals(3, count($result), 'Number of results for matching query and user with view any permission is as expected.');
 
     // With an account that has 'view own default log' permission, the result
     // should be the logs belonging to that user.
     $this->container->get('current_user')->setAccount($this->ownAccount);
     $result = $this->getAutocompleteResult('log');
-    $this->assertEqual(1, count($result), 'Number of results for matching query and user with view own permission is as expected.');
+    $this->assertEquals(1, count($result), 'Number of results for matching query and user with view own permission is as expected.');
     $own_log = array_filter($this->logs, function ($log) {
       /** @var \Drupal\log\Entity\LogInterface $log */
       return $log->id() == $this->ownAccount->id();
     });
     $own_log = reset($own_log);
-    $this->assertEqual($result[0], $own_log->label(), 'The right log for the user is returned.');
+    $this->assertEquals($result[0], $own_log->label(), 'The right log for the user is returned.');
 
     // With an account with no permissions and the right query, there should be
     // no results anyway.
@@ -190,14 +190,14 @@ class NameAutocompleteTest extends EntityKernelTestBase {
 
     $this->container->get('current_user')->setAccount($this->adminAccount);
     $result = $this->getAutocompleteResult('log');
-    $this->assertEqual(count($this->logs) - 1, count($result), 'Duplicated log is not duplicated in the autocomplete results.');
+    $this->assertEquals(count($this->logs) - 1, count($result), 'Duplicated log is not duplicated in the autocomplete results.');
     $expected_order = [
       'Z log',
       'First log',
       'Second log',
       'Third log',
     ];
-    $this->assertEqual($result, $expected_order, 'Order of results is as expected.');
+    $this->assertEquals($expected_order, $result, 'Order of results is as expected.');
   }
 
 }

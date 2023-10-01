@@ -105,7 +105,7 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
 
     $this->executeView($view);
 
-    $this->assertEqual(3, count($view->result), 'The number of returned rows match.');
+    $this->assertEquals(3, count($view->result), 'The number of returned rows match.');
     $this->assertIdenticalResultset($view, $this->expectedResultASC, [
       'name' => 'name',
       'id' => 'id',
@@ -134,7 +134,7 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
 
     $this->executeView($view);
 
-    $this->assertEqual(3, count($view->result), 'The number of returned rows match.');
+    $this->assertEquals(3, count($view->result), 'The number of returned rows match.');
     $this->assertIdenticalResultset($view, $this->expectedResultDESC, [
       'name' => 'name',
       'id' => 'id',
