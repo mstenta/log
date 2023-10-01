@@ -2,7 +2,6 @@
 
 namespace Drupal\log\ContextProvider;
 
-use Drupal\log\Entity\Log;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Plugin\Context\ContextProviderInterface;
@@ -10,6 +9,7 @@ use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\Core\Plugin\Context\EntityContextDefinition;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\log\Entity\Log;
 
 /**
  * Sets the current log as a context on log routes.
