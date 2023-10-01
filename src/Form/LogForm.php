@@ -127,7 +127,7 @@ class LogForm extends ContentEntityForm {
     // Author information for administrators.
     $form['author'] = [
       '#type' => 'details',
-      '#title' => t('Authoring information'),
+      '#title' => $this->t('Authoring information'),
       '#group' => 'advanced',
       '#weight' => 90,
       '#optional' => TRUE,
