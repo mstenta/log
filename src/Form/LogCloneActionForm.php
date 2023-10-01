@@ -38,6 +38,8 @@ class LogCloneActionForm extends LogActionFormBase {
    *   The entity type manager.
    * @param \Drupal\Core\Session\AccountInterface $user
    *   The current user.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher service.
    */
   public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, AccountInterface $user, EventDispatcherInterface $event_dispatcher) {
     parent::__construct($temp_store_factory, $entity_type_manager, $user);
