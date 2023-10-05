@@ -2,7 +2,7 @@ name: 'Log module tests'
 type: module
 description: 'Support module for log testing.'
 package: Testing
-core_version_requirement: ^8.8 || ^9
+core_version_requirement: ^9 || ^10
 
 dependencies:
   - log:log
