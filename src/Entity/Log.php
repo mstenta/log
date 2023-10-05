@@ -136,8 +136,7 @@ class Log extends RevisionableContentEntityBase implements LogInterface {
     $type = \Drupal::entityTypeManager()
       ->getStorage('log_type')
       ->load($this->bundle());
-    $name_pattern = $type->getNamePattern();
-    return $name_pattern ?? '';
+    return $type->getNamePattern();
   }
 
   /**
