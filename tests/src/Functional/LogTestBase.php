@@ -29,7 +29,7 @@ abstract class LogTestBase extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'entity',
     'user',
     'log',

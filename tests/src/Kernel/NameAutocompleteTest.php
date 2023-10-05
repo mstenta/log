@@ -19,7 +19,7 @@ class NameAutocompleteTest extends EntityKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'log',
     'log_test',
     'datetime',

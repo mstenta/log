@@ -19,7 +19,7 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['log', 'log_test', 'datetime', 'state_machine'];
+  protected static $modules = ['log', 'log_test', 'datetime', 'state_machine'];
 
   /**
    * Views used by this test.
