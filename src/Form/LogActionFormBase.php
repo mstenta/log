@@ -76,24 +76,9 @@ abstract class LogActionFormBase extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getQuestion() {}
-
-  /**
-   * {@inheritdoc}
-   */
   public function getCancelUrl() {
     return new Url('entity.log.collection');
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getConfirmText() {}
 
   /**
    * {@inheritdoc}
