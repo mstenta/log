@@ -133,6 +133,8 @@ class LogTypeForm extends EntityForm {
         ]));
     }
     $form_state->setRedirectUrl($log_type->toUrl('collection'));
+
+    return $status;
   }
 
 }
