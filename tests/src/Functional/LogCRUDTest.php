@@ -18,7 +18,7 @@ class LogCRUDTest extends LogTestBase {
    */
   public function testFieldsVisibility() {
     $this->drupalGet('log/add/default');
-    $this->assertResponse('200');
+    $this->assertSession()->statusCodeEquals('200');
     $assert_session = $this->assertSession();
     $assert_session->fieldExists('name[0][value]');
     $assert_session->fieldExists('timestamp[0][value][date]');
@@ -39,8 +39,9 @@ class LogCRUDTest extends LogTestBase {
     $edit = [
       'name[0][value]' => $name,
     ];
+    $this->drupalGet('log/add/default');
 
-    $this->drupalPostForm('log/add/default', $edit, $this->t('Save'));
+    $this->submitForm($edit, $this->t('Save'));
 
     $result = $this->storage
       ->getQuery()
@@ -67,10 +68,10 @@ class LogCRUDTest extends LogTestBase {
     $log->save();
 
     $this->drupalGet($log->toUrl('canonical'));
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
-    $this->assertText($edit['name']);
-    $this->assertRaw(\Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime()));
+    $this->assertSession()->pageTextContains($edit['name']);
+    $this->assertSession()->responseContains(\Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime()));
   }
 
   /**
@@ -83,9 +84,10 @@ class LogCRUDTest extends LogTestBase {
     $edit = [
       'name[0][value]' => $this->randomMachineName(),
     ];
-    $this->drupalPostForm($log->toUrl('edit-form'), $edit, $this->t('Save'));
+    $this->drupalGet($log->toUrl('edit-form'));
+    $this->submitForm($edit, $this->t('Save'));
 
-    $this->assertText($edit['name[0][value]']);
+    $this->assertSession()->pageTextContains($edit['name[0][value]']);
   }
 
   /**
@@ -97,9 +99,10 @@ class LogCRUDTest extends LogTestBase {
 
     $label = $log->getName();
     $log_id = $log->id();
+    $this->drupalGet($log->toUrl('delete-form'));
 
-    $this->drupalPostForm($log->toUrl('delete-form'), [], $this->t('Delete'));
-    $this->assertRaw($this->t('The @entity-type %label has been deleted.', [
+    $this->submitForm([], $this->t('Delete'));
+    $this->assertSession()->responseContains($this->t('The @entity-type %label has been deleted.', [
       '@entity-type' => $log->getEntityType()->getSingularLabel(),
       '%label' => $label,
     ]));

@@ -29,19 +29,20 @@ class LogActionsTest extends LogTestBase {
     $edit = [];
     $edit['action'] = 'log_clone_action';
     $edit['log_bulk_form[0]'] = TRUE;
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to clone this log?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to clone this log?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_clone = [];
     $edit_clone['date[date]'] = date('Y-m-d', $new_timestamp);
-    $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Cloned 1 log'));
+    $this->submitForm($edit_clone, $this->t('Clone'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Cloned 1 log'));
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(2, count($logs), 'There are two logs in the system.');
     $timestamps = [];
@@ -77,19 +78,20 @@ class LogActionsTest extends LogTestBase {
     for ($i = 0; $i < 3; $i++) {
       $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to clone these logs?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to clone these logs?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_clone = [];
     $edit_clone['date[date]'] = date('Y-m-d', $new_timestamp);
-    $this->drupalPostForm(NULL, $edit_clone, $this->t('Clone'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Cloned 3 logs'));
+    $this->submitForm($edit_clone, $this->t('Clone'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Cloned 3 logs'));
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(6, count($logs), 'There are six logs in the system.');
@@ -123,19 +125,20 @@ class LogActionsTest extends LogTestBase {
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
     $edit['log_bulk_form[0]'] = TRUE;
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to reschedule this log?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to reschedule this log?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $new_timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
 
     $edit_reschedule = [];
     $edit_reschedule['date[date]'] = date('Y-m-d', $new_timestamp);
-    $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Rescheduled 1 log'));
+    $this->submitForm($edit_reschedule, $this->t('Reschedule'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Rescheduled 1 log'));
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
@@ -170,19 +173,20 @@ class LogActionsTest extends LogTestBase {
     for ($i = 0; $i < 3; $i++) {
       $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to reschedule these logs?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to reschedule these logs?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $new_timestamp = strtotime('+1 day', $timestamp);
 
     $edit_reschedule = [];
     $edit_reschedule['date[date]'] = date('Y-m-d', $new_timestamp);
-    $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Rescheduled 3 logs'));
+    $this->submitForm($edit_reschedule, $this->t('Reschedule'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Rescheduled 3 logs'));
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
@@ -212,17 +216,18 @@ class LogActionsTest extends LogTestBase {
     $edit = [];
     $edit['action'] = 'log_reschedule_action';
     $edit['log_bulk_form[0]'] = TRUE;
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to reschedule this log?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to reschedule this log?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $edit_reschedule = [];
     $edit_reschedule['type_of_date'] = 1;
-    $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log/reschedule');
-    $this->assertText($this->t('Please enter the amount of time for rescheduling.'));
+    $this->submitForm($edit_reschedule, $this->t('Reschedule'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log/reschedule');
+    $this->assertSession()->pageTextContains($this->t('Please enter the amount of time for rescheduling.'));
 
     $new_timestamp = strtotime('+1 day', $timestamp);
 
@@ -230,10 +235,10 @@ class LogActionsTest extends LogTestBase {
     $edit_reschedule['type_of_date'] = 1;
     $edit_reschedule['amount'] = 1;
     $edit_reschedule['time'] = 'day';
-    $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Rescheduled 1 log'));
+    $this->submitForm($edit_reschedule, $this->t('Reschedule'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Rescheduled 1 log'));
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
@@ -269,19 +274,20 @@ class LogActionsTest extends LogTestBase {
     for ($i = 0; $i < 3; $i++) {
       $edit['log_bulk_form[' . $i . ']'] = TRUE;
     }
-    $this->drupalPostForm('admin/content/log', $edit, $this->t('Apply to selected items'));
-    $this->assertResponse(200);
-    $this->assertText($this->t('Are you sure you want to reschedule these logs?'));
-    $this->assertText($this->t('New date'));
+    $this->drupalGet('admin/content/log');
+    $this->submitForm($edit, $this->t('Apply to selected items'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($this->t('Are you sure you want to reschedule these logs?'));
+    $this->assertSession()->pageTextContains($this->t('New date'));
 
     $edit_reschedule = [];
     $edit_reschedule['type_of_date'] = 1;
     $edit_reschedule['amount'] = -1;
     $edit_reschedule['time'] = 'month';
-    $this->drupalPostForm(NULL, $edit_reschedule, $this->t('Reschedule'));
-    $this->assertResponse(200);
-    $this->assertUrl('admin/content/log');
-    $this->assertText($this->t('Rescheduled 3 logs'));
+    $this->submitForm($edit_reschedule, $this->t('Reschedule'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('admin/content/log');
+    $this->assertSession()->pageTextContains($this->t('Rescheduled 3 logs'));
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
