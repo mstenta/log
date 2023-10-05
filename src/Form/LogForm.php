@@ -86,6 +86,7 @@ class LogForm extends ContentEntityForm {
         ->getQuery()
         ->condition('type', $log->bundle())
         ->count()
+        ->accessCheck(TRUE)
         ->execute();
       if ($num_of_logs > 0) {
         $form['name']['widget'][0]['value']['#description'] = FieldFilteredMarkup::create($form['name']['widget'][0]['value']['#description'] . ' ' . $this->t('As you type, frequently used log names will be suggested.'));
