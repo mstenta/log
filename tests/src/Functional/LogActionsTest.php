@@ -55,12 +55,10 @@ class LogActionsTest extends LogTestBase {
    * Tests cloning multiple logs.
    */
   public function testCloneMultipleLogs() {
-    $timestamps = [];
     $expected_timestamps = [];
     $timestamp = \Drupal::time()->getRequestTime();
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime('+1 day', $timestamp);
-      $timestamps[] = $timestamp;
       $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
@@ -150,12 +148,10 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling multiple logs to an absolute date.
    */
   public function testRescheduleMultipleLogsAbsolute() {
-    $timestamps = [];
     $expected_timestamps = [];
     $timestamp = \Drupal::time()->getRequestTime();
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
-      $timestamps[] = $timestamp;
       $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
@@ -251,12 +247,10 @@ class LogActionsTest extends LogTestBase {
    */
   public function testRescheduleMultipleLogsRelative() {
     $timestamp = \Drupal::time()->getRequestTime();
-    $timestamps = [];
     $expected_timestamps = [];
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime('+1 day', $timestamp);
       $new_timestamp = strtotime('-1 month', $timestamp);
-      $timestamps[] = $timestamp;
       $expected_timestamps[] = $new_timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
