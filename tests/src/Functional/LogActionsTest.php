@@ -23,7 +23,7 @@ class LogActionsTest extends LogTestBase {
     ]);
     $log->save();
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
@@ -70,7 +70,7 @@ class LogActionsTest extends LogTestBase {
       $log->save();
     }
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];
@@ -119,7 +119,7 @@ class LogActionsTest extends LogTestBase {
     ]);
     $log->save();
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
@@ -165,7 +165,7 @@ class LogActionsTest extends LogTestBase {
       $log->save();
     }
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];
@@ -210,7 +210,7 @@ class LogActionsTest extends LogTestBase {
     ]);
     $log->save();
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
 
     $edit = [];
@@ -266,7 +266,7 @@ class LogActionsTest extends LogTestBase {
       $log->save();
     }
 
-    $num_of_logs = $this->storage->getQuery()->count()->execute();
+    $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
     $this->assertEquals(3, $num_of_logs, 'There are three logs in the system.');
 
     $edit = [];

@@ -26,6 +26,7 @@ class LogNamePatternTest extends LogTestBase {
     $result = $this->storage
       ->getQuery()
       ->range(0, 1)
+      ->accessCheck(TRUE)
       ->execute();
     $log_id = reset($result);
     $log = $this->storage->load($log_id);
@@ -51,6 +52,7 @@ class LogNamePatternTest extends LogTestBase {
     $result = $this->storage
       ->getQuery()
       ->range(0, 1)
+      ->accessCheck(TRUE)
       ->execute();
     $log_id = reset($result);
     $log = $this->storage->load($log_id);
