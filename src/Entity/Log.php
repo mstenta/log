@@ -30,6 +30,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
  *     "list_builder" = "\Drupal\log\LogListBuilder",
  *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
+ *     "query_access" = "\Drupal\entity\QueryAccess\UncacheableQueryAccessHandler",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\log\LogViewsData",
  *     "form" = {
