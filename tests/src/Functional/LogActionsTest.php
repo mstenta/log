@@ -13,9 +13,15 @@ class LogActionsTest extends LogTestBase {
    * Tests cloning a single log.
    */
   public function testCloneSingleLog() {
-    $timestamp = \Drupal::time()->getRequestTime();
 
+    // Create new user.
+    $original_user = $this->createUser([], 'Original user');
+    $this->assertNotEquals($this->loggedInUser->id(), $original_user->id());
+
+    // Create log.
+    $timestamp = \Drupal::time()->getRequestTime();
     $log = $this->createLogEntity([
+      'uid' => $original_user->id(),
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
       'done' => TRUE,
@@ -43,8 +49,10 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Cloned 1 log'));
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(2, count($logs), 'There are two logs in the system.');
+    $this->assertEquals($this->loggedInUser->id(), $logs[2]->getOwnerId(), 'Owner on the new log has been updated.');
     $timestamps = [];
     foreach ($logs as $log) {
       $timestamps[] = $log->get('timestamp')->value;
@@ -56,12 +64,19 @@ class LogActionsTest extends LogTestBase {
    * Tests cloning multiple logs.
    */
   public function testCloneMultipleLogs() {
+
+    // Create new user.
+    $original_user = $this->createUser([], 'Original user');
+    $this->assertNotEquals($this->loggedInUser->id(), $original_user->id());
+
+    // Create logs.
     $expected_timestamps = [];
     $timestamp = \Drupal::time()->getRequestTime();
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime('+1 day', $timestamp);
       $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
+        'uid' => $original_user->id(),
         'name' => $this->randomMachineName(),
         'created' => \Drupal::time()->getRequestTime(),
         'done' => TRUE,
@@ -96,6 +111,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(6, count($logs), 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
+      $this->assertEquals($this->loggedInUser->id(), $logs[3 + $i]->getOwnerId(), 'Owner on the new log has been updated');
       $expected_timestamps[] = $new_timestamp;
     }
     $log_timestamps = [];
