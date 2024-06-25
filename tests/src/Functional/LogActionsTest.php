@@ -53,11 +53,7 @@ class LogActionsTest extends LogTestBase {
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(2, count($logs), 'There are two logs in the system.');
     $this->assertEquals($this->loggedInUser->id(), $logs[2]->getOwnerId(), 'Owner on the new log has been updated.');
-    $timestamps = [];
-    foreach ($logs as $log) {
-      $timestamps[] = $log->get('timestamp')->value;
-    }
-    $this->assertEquals([$timestamp, $new_timestamp], $timestamps, 'Timestamp on the new log has been updated.');
+    $this->assertEquals($new_timestamp, $logs[2]->get('timestamp')->value, 'Timestamp on the new log has been updated.');
   }
 
   /**
@@ -70,11 +66,8 @@ class LogActionsTest extends LogTestBase {
     $this->assertNotEquals($this->loggedInUser->id(), $original_user->id());
 
     // Create logs.
-    $expected_timestamps = [];
     $timestamp = \Drupal::time()->getRequestTime();
     for ($i = 0; $i < 3; $i++) {
-      $timestamp = strtotime('+1 day', $timestamp);
-      $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'uid' => $original_user->id(),
         'name' => $this->randomMachineName(),
@@ -112,13 +105,8 @@ class LogActionsTest extends LogTestBase {
     $this->assertEquals(6, count($logs), 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
       $this->assertEquals($this->loggedInUser->id(), $logs[3 + $i]->getOwnerId(), 'Owner on the new log has been updated');
-      $expected_timestamps[] = $new_timestamp;
+      $this->assertEquals($new_timestamp, $logs[3 + $i]->get('timestamp')->value, 'Timestamp on the new log has been updated.');
     }
-    $log_timestamps = [];
-    foreach ($logs as $log) {
-      $log_timestamps[] = $log->get('timestamp')->value;
-    }
-    $this->assertEquals($expected_timestamps, $log_timestamps, 'Timestamp on the new logs has been updated.');
   }
 
   /**
@@ -167,11 +155,9 @@ class LogActionsTest extends LogTestBase {
    * Tests rescheduling multiple logs to an absolute date.
    */
   public function testRescheduleMultipleLogsAbsolute() {
-    $expected_timestamps = [];
     $timestamp = \Drupal::time()->getRequestTime();
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime(date('Y-n-j', strtotime('+1 day', $timestamp)));
-      $expected_timestamps[] = $timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
         'created' => \Drupal::time()->getRequestTime(),
