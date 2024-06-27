@@ -81,7 +81,13 @@ abstract class LogStateChangeBase extends EntityActionBase {
     // Deny access if the workflow does not support the target state.
     if (empty($target_state)) {
       $result = $result->orIf(AccessResult::forbidden(
-        $this->t('The %workflow workflow does not support the %target_state state.', ['%workflow' => $workflow->getLabel(), '%target_state' => $this->targetState]),
+        $this->t(
+          'The %workflow workflow does not support the %target_state state.',
+          [
+            '%workflow' => $workflow->getLabel(),
+            '%target_state' => $this->targetState,
+          ],
+        ),
       ));
     }
     // Else check that a transition exists to the desired target state.
@@ -89,7 +95,13 @@ abstract class LogStateChangeBase extends EntityActionBase {
       $transition = $workflow->findTransition($state_item->getOriginalId(), $this->targetState);
       $result = $result->orIf(AccessResult::forbiddenIf(
         empty($transition) || !$state_item->isTransitionAllowed($transition->getId()),
-        $this->t('The state transition from %original_state to %target_state is not allowed.', ['%original' => $state_item->getOriginalLabel(), '%target_state' => $target_state->getLabel()]),
+        $this->t(
+          'The state transition from %original_state to %target_state is not allowed.',
+          [
+            '%original' => $state_item->getOriginalLabel(),
+            '%target_state' => $target_state->getLabel(),
+          ],
+        ),
       ));
     }
 
