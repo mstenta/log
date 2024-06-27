@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\log\Functional;
 
+use Drupal\log\Entity\LogInterface;
+
 /**
  * Tests the Log form actions.
  *
@@ -257,8 +259,6 @@ class LogActionsTest extends LogTestBase {
     $expected_timestamps = [];
     for ($i = 0; $i < 3; $i++) {
       $timestamp = strtotime('+1 day', $timestamp);
-      $new_timestamp = strtotime('-1 month', $timestamp);
-      $expected_timestamps[] = $new_timestamp;
       $log = $this->createLogEntity([
         'name' => $this->randomMachineName(),
         'created' => \Drupal::time()->getRequestTime(),
@@ -266,6 +266,10 @@ class LogActionsTest extends LogTestBase {
         'timestamp' => $timestamp,
       ]);
       $log->save();
+
+      // Save the expected timestamp for the log.
+      $new_timestamp = strtotime('-1 month', $timestamp);
+      $expected_timestamps[$log->id()] = $new_timestamp;
     }
 
     $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
@@ -293,10 +297,9 @@ class LogActionsTest extends LogTestBase {
 
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
-    $log_timestamps = [];
-    foreach ($logs as $log) {
-      $log_timestamps[] = $log->get('timestamp')->value;
-    }
+    $log_timestamps = array_map(function (LogInterface $log) {
+      return $log->get('timestamp')->value;
+    }, $logs);
     $this->assertEquals($expected_timestamps, $log_timestamps, 'Logs have been rescheduled');
   }
 
