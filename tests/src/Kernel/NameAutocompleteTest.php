@@ -79,16 +79,20 @@ class NameAutocompleteTest extends EntityKernelTestBase {
     $this->installConfig(['log', 'log_test']);
 
     // Create the test user accounts.
-    $this->adminAccount = $this->createUser([], ['administer log']);
-    $this->anyAccount = $this->createUser([], [
+    $this->adminAccount = $this->createUser([
+      'administer log',
+    ]);
+    $this->anyAccount = $this->createUser([
       'view any default log',
       'create default log',
     ]);
-    $this->ownAccount = $this->createUser([], [
+    $this->ownAccount = $this->createUser([
       'view own default log',
       'create default log',
     ]);
-    $this->noneAccount = $this->createUser([], ['create default log']);
+    $this->noneAccount = $this->createUser([
+      'create default log',
+    ]);
 
     // Create the different log entries.
     $this->logs[] = $this->createLogEntity([
