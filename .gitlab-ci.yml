@@ -34,7 +34,7 @@ phpunit:
       - _TARGET_DB_TYPE: 'mysql'
         _TARGET_DB_VERSION: '8'
       - _TARGET_DB_TYPE: 'pgsql'
-        _TARGET_DB_VERSION: '13.5'
+        _TARGET_DB_VERSION: '16'
       - _TARGET_DB_TYPE: 'mariadb'
         _TARGET_DB_VERSION: '10.6'
       - _TARGET_DB_TYPE: 'sqlite'
