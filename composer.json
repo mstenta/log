@@ -13,5 +13,12 @@
     "drupal/entity": "^1.0",
     "drupal/state_machine": "^1.0",
     "drupal/token": "^1.0"
+  },
+  "extra": {
+    "phpstan": {
+      "includes": [
+        "entity_mapping.neon"
+      ]
+    }
   }
 }
