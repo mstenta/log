@@ -47,7 +47,7 @@ class LogForm extends ContentEntityForm {
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL, AccountInterface $current_user, DateFormatterInterface $date_formatter) {
+  public function __construct(EntityRepositoryInterface $entity_repository, ?EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, ?TimeInterface $time = NULL, AccountInterface $current_user, DateFormatterInterface $date_formatter) {
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
     $this->currentUser = $current_user;
     $this->dateFormatter = $date_formatter;

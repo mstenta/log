@@ -80,7 +80,7 @@ abstract class LogActionBase extends ActionBase implements DependentPluginInterf
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\log\Entity\LogInterface $object */
     return $object->access('update', $account, $return_as_object);
   }

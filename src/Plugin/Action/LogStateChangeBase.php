@@ -22,7 +22,7 @@ abstract class LogStateChangeBase extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function execute(LogInterface $log = NULL) {
+  public function execute(?LogInterface $log = NULL) {
 
     // Bail if there is no log.
     if (empty($log)) {
@@ -57,7 +57,7 @@ abstract class LogStateChangeBase extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\log\Entity\LogInterface $object */
     // First check entity and state field access.
     $result = $object->get('status')->access('edit', $account, TRUE)
