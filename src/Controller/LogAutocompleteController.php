@@ -59,8 +59,9 @@ class LogAutocompleteController extends ControllerBase {
     if ($input = $request->query->get('q')) {
       // A regular database query is used so the results returned can be sorted
       // by usage.
-      $table_mapping = $this->entityTypeManager()->getStorage('log')->getTableMapping();
-      $query = $this->database->select($table_mapping->getDataTable(), 'log_field_data');
+      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $log_storage */
+      $log_storage = $this->entityTypeManager()->getStorage('log');
+      $query = $this->database->select($log_storage->getDataTable(), 'log_field_data');
       $query->fields('log_field_data', ['name']);
       $query->addExpression('COUNT(name)', 'count');
       $query->condition('type', $log_bundle);
