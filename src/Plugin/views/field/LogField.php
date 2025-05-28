@@ -27,8 +27,10 @@ class LogField extends EntityField {
       // Column is not in query; add a sort on it (without adding the column).
       $this->aliases[$column] = $this->tableAlias . '.' . $column;
     }
-    $this->query->addOrderBy(NULL, NULL, $order, $this->aliases[$column]);
-    $this->query->addOrderBy($this->tableAlias, 'id', $order);
+    /** @var \Drupal\views\Plugin\views\query\Sql $query */
+    $query = $this->query;
+    $query->addOrderBy(NULL, NULL, $order, $this->aliases[$column]);
+    $query->addOrderBy($this->tableAlias, 'id', $order);
   }
 
 }

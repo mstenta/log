@@ -57,6 +57,7 @@ class LogTypeForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+    /** @var \Drupal\log\Entity\LogTypeInterface $log_type */
     $log_type = $this->entity;
 
     $form['label'] = [

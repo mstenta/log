@@ -138,6 +138,7 @@ class LogStorage extends SqlContentEntityStorage {
    *   Returns the generated log name.
    */
   protected function generateLogName(EntityInterface $entity) {
+    /** @var \Drupal\log\Entity\LogInterface $entity */
 
     // Get the log type's naming pattern.
     $name_pattern = $entity->getTypeNamePattern();

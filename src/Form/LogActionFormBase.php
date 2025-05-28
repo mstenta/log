@@ -66,7 +66,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
     $this->entityTypeManager = $entity_type_manager;
     $this->user = $user;
 
-    $this->logs = $this->tempStoreFactory->get($this->actionId)->get($this->user->id());
+    $this->logs = $this->tempStoreFactory->get($this->actionId)->get((string) $this->user->id());
   }
 
   /**
@@ -91,7 +91,10 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return '';
+    // PHP CodeSniffer complains about passing an empty string to t(), but we
+    // want an empty description, and we must return a TranslatableMarkup.
+    // phpcs:ignore
+    return $this->t('');
   }
 
   /**
@@ -118,7 +121,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->tempStoreFactory->get($this->actionId)->delete($this->user->id());
+    $this->tempStoreFactory->get($this->actionId)->delete((string) $this->user->id());
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
 

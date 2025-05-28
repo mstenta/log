@@ -3,7 +3,6 @@
 namespace Drupal\log\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Entity\EntityStorageInterface;
 
 /**
  * Defines the Log type entity.
@@ -118,33 +117,6 @@ class LogType extends ConfigEntityBundleBase implements LogTypeInterface {
    */
   public function getNamePattern() {
     return $this->name_pattern;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
-    parent::postSave($storage, $update);
-
-    // If the log type id changed, update all existing logs of that type.
-    if ($update && $this->getOriginalId() != $this->id()) {
-      $update_count = \Drupal::entityTypeManager()->getStorage('log')->updateType($this->getOriginalId(), $this->id());
-      if ($update_count) {
-        \Drupal::messenger()->addMessage(\Drupal::translation()->formatPlural($update_count,
-          'Changed the log type of 1 post from %old-type to %type.',
-          'Changed the log type of @count posts from %old-type to %type.',
-          [
-            '%old-type' => $this->getOriginalId(),
-            '%type' => $this->id(),
-          ]));
-      }
-    }
-    if ($update) {
-      // Clear the cached field definitions as some settings affect the field
-      // definitions.
-      \Drupal::entityTypeManager()->clearCachedDefinitions();
-      \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
-    }
   }
 
   /**

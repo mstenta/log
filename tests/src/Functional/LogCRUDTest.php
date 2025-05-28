@@ -18,7 +18,7 @@ class LogCRUDTest extends LogTestBase {
    */
   public function testFieldsVisibility() {
     $this->drupalGet('log/add/default');
-    $this->assertSession()->statusCodeEquals('200');
+    $this->assertSession()->statusCodeEquals(200);
     $assert_session = $this->assertSession();
     $assert_session->fieldExists('name[0][value]');
     $assert_session->fieldExists('timestamp[0][value][date]');
@@ -49,6 +49,7 @@ class LogCRUDTest extends LogTestBase {
       ->accessCheck(TRUE)
       ->execute();
     $log_id = reset($result);
+    /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $this->storage->load($log_id);
     $this->assertEquals($log->get('name')->value, $name, 'Log has been saved.');
 

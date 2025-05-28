@@ -145,8 +145,10 @@ class LogRescheduleActionForm extends LogActionFormBase {
           $new_date = new DrupalDateTime();
           $new_date->setTimestamp($log->get('timestamp')->value);
           $new_date->modify("$sign$amount $time");
-          if ($log->get('status')->first()->isTransitionAllowed('to_pending')) {
-            $log->get('status')->first()->applyTransitionById('to_pending');
+          /** @var \Drupal\state_machine\Plugin\Field\FieldType\StateItemInterface $status */
+          $status = $log->get('status')->first();
+          if ($status->isTransitionAllowed('to_pending')) {
+            $status->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
           $log->setRevisionLogMessage($form_state->getValue('revision_message'));
@@ -158,8 +160,10 @@ class LogRescheduleActionForm extends LogActionFormBase {
         /** @var \Drupal\Core\Datetime\DrupalDateTime $new_date */
         $new_date = $form_state->getValue('date');
         foreach ($accessible_logs as $log) {
-          if ($log->get('status')->first()->isTransitionAllowed('to_pending')) {
-            $log->get('status')->first()->applyTransitionById('to_pending');
+          /** @var \Drupal\state_machine\Plugin\Field\FieldType\StateItemInterface $status */
+          $status = $log->get('status')->first();
+          if ($status->isTransitionAllowed('to_pending')) {
+            $status->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
           $log->setRevisionLogMessage($form_state->getValue('revision_message'));

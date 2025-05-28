@@ -15,13 +15,15 @@ class LogStandardSort extends Date {
    * {@inheritdoc}
    */
   public function query() {
+    /** @var \Drupal\views\Plugin\views\query\Sql $query */
+    $query = $this->query;
     $this->ensureMyTable();
 
     switch ($this->options['granularity']) {
       case 'second':
       default:
-        $this->query->addOrderBy($this->tableAlias, $this->realField, $this->options['order']);
-        $this->query->addOrderBy($this->tableAlias, 'id', $this->options['order']);
+        $query->addOrderBy($this->tableAlias, $this->realField, $this->options['order']);
+        $query->addOrderBy($this->tableAlias, 'id', $this->options['order']);
         return;
 
       case 'minute':
@@ -45,8 +47,8 @@ class LogStandardSort extends Date {
         break;
     }
 
-    $this->query->addOrderBy(NULL, $formula, $this->options['order'], $this->tableAlias . '_' . $this->field . '_' . $this->options['granularity']);
-    $this->query->addOrderBy($this->tableAlias, 'id', $this->options['order']);
+    $query->addOrderBy(NULL, $formula, $this->options['order'], $this->tableAlias . '_' . $this->field . '_' . $this->options['granularity']);
+    $query->addOrderBy($this->tableAlias, 'id', $this->options['order']);
   }
 
   /**

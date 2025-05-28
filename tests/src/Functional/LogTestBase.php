@@ -20,14 +20,14 @@ abstract class LogTestBase extends BrowserTestBase {
   /**
    * The log storage handler.
    *
-   * @var \Drupal\group\Entity\Storage\GroupRoleStorageInterface
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $storage;
 
   /**
    * Modules to install.
    *
-   * @var array
+   * @var string[]
    */
   protected static $modules = [
     'entity',
@@ -88,6 +88,7 @@ abstract class LogTestBase extends BrowserTestBase {
    *   The log entity.
    */
   protected function createLogEntity(array $values = []) {
+    /** @var \Drupal\log\Entity\LogInterface $entity */
     $entity = $this->storage->create($values + [
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
