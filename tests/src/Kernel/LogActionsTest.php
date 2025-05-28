@@ -43,7 +43,6 @@ class LogActionsTest extends KernelTestBase {
     $this->actionManager = $this->container->get('plugin.manager.action');
     $this->installEntitySchema('user');
     $this->installEntitySchema('log');
-    $this->installSchema('system', ['sequences']);
     $this->installConfig(['log', 'log_test']);
   }
 
