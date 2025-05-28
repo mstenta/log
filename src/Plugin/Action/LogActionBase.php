@@ -67,7 +67,7 @@ abstract class LogActionBase extends ActionBase implements DependentPluginInterf
    * {@inheritdoc}
    */
   public function executeMultiple(array $entities) {
-    $this->tempStore->set($this->user->id(), $entities);
+    $this->tempStore->set((string) $this->user->id(), $entities);
   }
 
   /**

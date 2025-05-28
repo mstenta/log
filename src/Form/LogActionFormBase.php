@@ -66,7 +66,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
     $this->entityTypeManager = $entity_type_manager;
     $this->user = $user;
 
-    $this->logs = $this->tempStoreFactory->get($this->actionId)->get($this->user->id());
+    $this->logs = $this->tempStoreFactory->get($this->actionId)->get((string) $this->user->id());
   }
 
   /**
@@ -121,7 +121,7 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->tempStoreFactory->get($this->actionId)->delete($this->user->id());
+    $this->tempStoreFactory->get($this->actionId)->delete((string) $this->user->id());
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
 
