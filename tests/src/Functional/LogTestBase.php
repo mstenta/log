@@ -20,7 +20,7 @@ abstract class LogTestBase extends BrowserTestBase {
   /**
    * The log storage handler.
    *
-   * @var \Drupal\group\Entity\Storage\GroupRoleStorageInterface
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $storage;
 
