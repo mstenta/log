@@ -88,6 +88,7 @@ abstract class LogTestBase extends BrowserTestBase {
    *   The log entity.
    */
   protected function createLogEntity(array $values = []) {
+    /** @var \Drupal\log\Entity\LogInterface $entity */
     $entity = $this->storage->create($values + [
       'name' => $this->randomMachineName(),
       'created' => \Drupal::time()->getRequestTime(),
