@@ -96,8 +96,8 @@ class LogCloneActionForm extends LogActionFormBase {
       $accessible_logs[] = $log;
     }
 
-    /** @var \Drupal\Core\Datetime\DrupalDateTime $new_date */
     if ($form_state->getValue('confirm') && !empty($accessible_logs)) {
+      /** @var \Drupal\Core\Datetime\DrupalDateTime $new_date */
       $new_date = $form_state->getValue('date');
       $count = count($this->logs);
       foreach ($accessible_logs as $log) {
