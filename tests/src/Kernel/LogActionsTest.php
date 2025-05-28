@@ -66,6 +66,7 @@ class LogActionsTest extends KernelTestBase {
    * Tests that the mark as done action sets the right state.
    */
   public function testMarkAsDoneAction() {
+    /** @var \Drupal\log\Plugin\Action\LogMarkAsDone $action */
     $action = $this->actionManager->createInstance('log_mark_as_done_action');
     $this->assertTrue($action instanceof ActionInterface, 'The action implements the correct interface.');
     $new_log = $this->createLogEntity([
@@ -84,6 +85,7 @@ class LogActionsTest extends KernelTestBase {
    * Tests that the mark as pending action sets the right state.
    */
   public function testMarkAsPendingAction() {
+    /** @var \Drupal\log\Plugin\Action\LogMarkAsPending $action */
     $action = $this->actionManager->createInstance('log_mark_as_pending_action');
     $this->assertTrue($action instanceof ActionInterface, 'The action implements the correct interface.');
     $new_log = $this->createLogEntity([
