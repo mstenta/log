@@ -18,7 +18,7 @@ class LogCRUDTest extends LogTestBase {
    */
   public function testFieldsVisibility() {
     $this->drupalGet('log/add/default');
-    $this->assertSession()->statusCodeEquals('200');
+    $this->assertSession()->statusCodeEquals(200);
     $assert_session = $this->assertSession();
     $assert_session->fieldExists('name[0][value]');
     $assert_session->fieldExists('timestamp[0][value][date]');
