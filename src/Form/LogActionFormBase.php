@@ -91,7 +91,10 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return '';
+    // PHP CodeSniffer complains about passing an empty string to t(), but we
+    // want an empty description, and we must return a TranslatableMarkup.
+    // phpcs:ignore
+    return $this->t('');
   }
 
   /**
