@@ -27,7 +27,7 @@ abstract class LogTestBase extends BrowserTestBase {
   /**
    * Modules to install.
    *
-   * @var array
+   * @var string[]
    */
   protected static $modules = [
     'entity',
