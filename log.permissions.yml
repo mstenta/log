@@ -1,3 +1,6 @@
+access log collection:
+  title: 'View log collection'
+  description: 'View a collection of log entities.'
 administer log types:
   title: 'Administer log types'
   description: 'Maintain the types of content available and the fields that are associated with those types.'

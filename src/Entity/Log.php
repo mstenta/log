@@ -54,6 +54,7 @@ use Drupal\user\EntityOwnerTrait;
  *   revisionable = TRUE,
  *   show_revision_ui = TRUE,
  *   admin_permission = "administer log",
+ *   collection_permission = "access log collection",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "revision_id",
