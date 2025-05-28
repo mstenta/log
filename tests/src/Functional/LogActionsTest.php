@@ -299,6 +299,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Rescheduled 3 logs'));
 
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
     $log_timestamps = array_map(function (LogInterface $log) {
