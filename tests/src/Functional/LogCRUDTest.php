@@ -49,6 +49,7 @@ class LogCRUDTest extends LogTestBase {
       ->accessCheck(TRUE)
       ->execute();
     $log_id = reset($result);
+    /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $this->storage->load($log_id);
     $this->assertEquals($log->get('name')->value, $name, 'Log has been saved.');
 

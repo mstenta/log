@@ -75,6 +75,7 @@ class LogActionsTest extends KernelTestBase {
     $new_log->save();
     $action->execute($new_log);
     $storage = $this->container->get('entity_type.manager')->getStorage('log');
+    /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $storage->load($new_log->id());
     $this->assertEquals('done', $log->get('status')->value);
   }
@@ -92,6 +93,7 @@ class LogActionsTest extends KernelTestBase {
     $new_log->save();
     $action->execute($new_log);
     $storage = $this->container->get('entity_type.manager')->getStorage('log');
+    /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $storage->load($new_log->id());
     $this->assertEquals('pending', $log->get('status')->value);
   }

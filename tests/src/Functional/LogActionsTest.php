@@ -103,6 +103,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Cloned 3 logs'));
 
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(6, count($logs), 'There are six logs in the system.');
     for ($i = 1; $i <= 3; $i++) {
@@ -146,6 +147,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Rescheduled 1 log'));
 
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
     $log = reset($logs);
@@ -192,6 +194,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Rescheduled 3 logs'));
 
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
     foreach ($logs as $log) {
@@ -244,6 +247,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertSession()->addressEquals('admin/content/log');
     $this->assertSession()->pageTextContains($this->t('Rescheduled 1 log'));
 
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(1, $num_of_logs, 'There is one log in the system.');
     $log = reset($logs);
