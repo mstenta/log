@@ -106,9 +106,11 @@ class LogForm extends ContentEntityForm {
       '#tree' => TRUE,
       '#access' => $this->currentUser->hasPermission('administer log'),
     ];
+    /** @var \Drupal\state_machine\Plugin\Field\FieldType\StateItemInterface $status */
+    $status = $log->get('status')->first();
     $form['meta']['status'] = [
       '#type' => 'item',
-      '#markup' => $log->get('status')->first()->getLabel(),
+      '#markup' => $status->getLabel(),
       '#access' => !$log->isNew(),
       '#$log' => ['class' => ['entity-meta__title']],
     ];
