@@ -69,13 +69,6 @@ abstract class LogStateChangeBase extends EntityActionBase {
     /** @var \Drupal\state_machine\Plugin\Field\FieldType\StateItemInterface $state_item */
     $state_item = $object->get('status')->first();
 
-    // If the state field is already in the target state, return early.
-    // The workflow will not allow a transition to the same state but the
-    // action itself does not need to fail.
-    if ($state_item->getOriginalId() === $this->targetState) {
-      return $return_as_object ? $result : $result->isAllowed();
-    }
-
     // Check that the target state exists for the workflow.
     $workflow = $state_item->getWorkflow();
     $target_state = $workflow->getState($this->targetState);
