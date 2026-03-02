@@ -18,6 +18,7 @@ class LogActionsTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'entity',
     'system',
     'user',
     'log',
