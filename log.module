@@ -7,8 +7,6 @@
 
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\log\Entity\LogInterface;
-use Drupal\log\Event\LogEvent;
 
 /**
  * Implements hook_help().
@@ -24,66 +22,6 @@ function log_help($route_name, RouteMatchInterface $route_match) {
   }
 
   return $output;
-}
-
-/**
- * Implements hook_ENTITY_TYPE_presave().
- */
-function log_log_presave(LogInterface $log) {
-
-  // Dispatch an event on log presave.
-  // @deprecated in log:3.1.0 and is removed from log:4.0.0.
-  // Use hook_entity_presave() instead.
-  // @see https://www.drupal.org/node/3576562
-  $event = new LogEvent($log);
-  $event_dispatcher = \Drupal::service('event_dispatcher');
-  // @phpstan-ignore-next-line
-  $event_dispatcher->dispatch($event, LogEvent::PRESAVE);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_insert().
- */
-function log_log_insert(LogInterface $log) {
-
-  // Dispatch an event on log insert.
-  // @deprecated in log:3.1.0 and is removed from log:4.0.0.
-  // Use hook_entity_insert() instead.
-  // @see https://www.drupal.org/node/3576562
-  $event = new LogEvent($log);
-  $event_dispatcher = \Drupal::service('event_dispatcher');
-  // @phpstan-ignore-next-line
-  $event_dispatcher->dispatch($event, LogEvent::INSERT);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_update().
- */
-function log_log_update(LogInterface $log) {
-
-  // Dispatch an event on log update.
-  // @deprecated in log:3.1.0 and is removed from log:4.0.0.
-  // Use hook_entity_update() instead.
-  // @see https://www.drupal.org/node/3576562
-  $event = new LogEvent($log);
-  $event_dispatcher = \Drupal::service('event_dispatcher');
-  // @phpstan-ignore-next-line
-  $event_dispatcher->dispatch($event, LogEvent::UPDATE);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_delete().
- */
-function log_log_delete(LogInterface $log) {
-
-  // Dispatch an event on log delete.
-  // @deprecated in log:3.1.0 and is removed from log:4.0.0.
-  // Use hook_entity_delete() instead.
-  // @see https://www.drupal.org/node/3576562
-  $event = new LogEvent($log);
-  $event_dispatcher = \Drupal::service('event_dispatcher');
-  // @phpstan-ignore-next-line
-  $event_dispatcher->dispatch($event, LogEvent::DELETE);
 }
 
 /**
