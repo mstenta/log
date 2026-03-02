@@ -18,22 +18,9 @@ class LogRouteContext implements ContextProviderInterface {
 
   use StringTranslationTrait;
 
-  /**
-   * The route match object.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * Constructs a new LogRouteContext.
-   *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
-   *   The route match object.
-   */
-  public function __construct(RouteMatchInterface $route_match) {
-    $this->routeMatch = $route_match;
-  }
+  public function __construct(
+    protected RouteMatchInterface $routeMatch,
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -15,21 +15,8 @@ class LogEvent extends Event {
    */
   const CLONE = 'log_clone';
 
-  /**
-   * The Log entity.
-   *
-   * @var \Drupal\log\Entity\LogInterface
-   */
-  public LogInterface $log;
-
-  /**
-   * Constructs the object.
-   *
-   * @param \Drupal\log\Entity\LogInterface $log
-   *   The Log entity.
-   */
-  public function __construct(LogInterface $log) {
-    $this->log = $log;
-  }
+  public function __construct(
+    public LogInterface $log,
+  ) {}
 
 }

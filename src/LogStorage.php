@@ -24,38 +24,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class LogStorage extends SqlContentEntityStorage {
 
-  /**
-   * The token service.
-   *
-   * @var \Drupal\Core\Utility\Token
-   */
-  protected $token;
-
-  /**
-   * Constructs a SqlContentEntityStorage object.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *   The entity type definition.
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database connection to be used.
-   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
-   *   The entity field manager.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
-   *   The cache backend to be used.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager.
-   * @param \Drupal\Core\Cache\MemoryCache\MemoryCacheInterface $memory_cache
-   *   The memory cache backend to be used.
-   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
-   *   The entity type bundle info.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\Core\Utility\Token $token
-   *   The token service.
-   */
-  public function __construct(EntityTypeInterface $entity_type, Connection $database, EntityFieldManagerInterface $entity_field_manager, CacheBackendInterface $cache, LanguageManagerInterface $language_manager, MemoryCacheInterface $memory_cache, EntityTypeBundleInfoInterface $entity_type_bundle_info, EntityTypeManagerInterface $entity_type_manager, Token $token) {
+  public function __construct(
+    EntityTypeInterface $entity_type,
+    Connection $database,
+    EntityFieldManagerInterface $entity_field_manager,
+    CacheBackendInterface $cache,
+    LanguageManagerInterface $language_manager,
+    MemoryCacheInterface $memory_cache,
+    EntityTypeBundleInfoInterface $entity_type_bundle_info,
+    EntityTypeManagerInterface $entity_type_manager,
+    protected Token $token,
+  ) {
     parent::__construct($entity_type, $database, $entity_field_manager, $cache, $language_manager, $memory_cache, $entity_type_bundle_info, $entity_type_manager);
-    $this->token = $token;
   }
 
   /**

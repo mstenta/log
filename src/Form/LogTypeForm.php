@@ -2,11 +2,11 @@
 
 namespace Drupal\log\Form;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\state_machine\WorkflowManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form controller for Log type entities.
@@ -15,41 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class LogTypeForm extends EntityForm {
 
-  /**
-   * The workflow manager.
-   *
-   * @var \Drupal\state_machine\WorkflowManagerInterface
-   */
-  protected $workflowManager;
+  use AutowireTrait;
 
-  /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * Constructs a new LogTypeForm object.
-   *
-   * @param \Drupal\state_machine\WorkflowManagerInterface $workflow_manager
-   *   The workflow manager.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-   *   The module handler.
-   */
-  public function __construct(WorkflowManagerInterface $workflow_manager, ModuleHandlerInterface $module_handler) {
-    $this->workflowManager = $workflow_manager;
-    $this->moduleHandler = $module_handler;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('plugin.manager.workflow'),
-      $container->get('module_handler')
-    );
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    protected WorkflowManagerInterface $workflowManager,
+  ) {
+    $this->setModuleHandler($module_handler);
   }
 
   /**

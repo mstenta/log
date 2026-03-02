@@ -7,7 +7,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\log\Event\LogEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,40 +21,13 @@ class LogCloneActionForm extends LogActionFormBase {
    */
   protected $actionId = 'log_clone_action';
 
-  /**
-   * The event dispatcher service.
-   *
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  protected $eventDispatcher;
-
-  /**
-   * Constructs a LogCloneActionForm form object.
-   *
-   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
-   *   The tempstore factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\Core\Session\AccountInterface $user
-   *   The current user.
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
-   *   The event dispatcher service.
-   */
-  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, AccountInterface $user, EventDispatcherInterface $event_dispatcher) {
+  public function __construct(
+    PrivateTempStoreFactory $temp_store_factory,
+    EntityTypeManagerInterface $entity_type_manager,
+    AccountInterface $user,
+    protected EventDispatcherInterface $eventDispatcher,
+  ) {
     parent::__construct($temp_store_factory, $entity_type_manager, $user);
-    $this->eventDispatcher = $event_dispatcher;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('tempstore.private'),
-      $container->get('entity_type.manager'),
-      $container->get('current_user'),
-      $container->get('event_dispatcher'),
-    );
   }
 
   /**

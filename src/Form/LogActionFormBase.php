@@ -3,39 +3,20 @@
 namespace Drupal\log\Form;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base form class for configurable actions.
  */
 abstract class LogActionFormBase extends ConfirmFormBase {
 
-  /**
-   * The tempstore factory.
-   *
-   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
-   */
-  protected $tempStoreFactory;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $user;
+  use AutowireTrait;
 
   /**
    * The logs to clone.
@@ -51,33 +32,12 @@ abstract class LogActionFormBase extends ConfirmFormBase {
    */
   protected $actionId;
 
-  /**
-   * Constructs a LogActionFormBase form object.
-   *
-   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
-   *   The tempstore factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\Core\Session\AccountInterface $user
-   *   The current user.
-   */
-  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, AccountInterface $user) {
-    $this->tempStoreFactory = $temp_store_factory;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->user = $user;
-
+  public function __construct(
+    protected PrivateTempStoreFactory $tempStoreFactory,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected AccountInterface $user,
+  ) {
     $this->logs = $this->tempStoreFactory->get($this->actionId)->get((string) $this->user->id());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('tempstore.private'),
-      $container->get('entity_type.manager'),
-      $container->get('current_user')
-    );
   }
 
   /**

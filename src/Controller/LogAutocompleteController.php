@@ -4,7 +4,7 @@ namespace Drupal\log\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,31 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LogAutocompleteController extends ControllerBase {
 
-  /**
-   * The database service.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
+  use AutowireTrait;
 
-  /**
-   * Constructs a LogAutocompleteController object.
-   *
-   * @param \Drupal\Core\Database\Connection $database
-   *   A database connection.
-   */
-  public function __construct(Connection $database) {
-    $this->database = $database;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('database')
-    );
-  }
+  public function __construct(
+    protected Connection $database,
+  ) {}
 
   /**
    * Retrieves suggestions for log name autocompletion.

@@ -1,6 +1,7 @@
 services:
+  _defaults:
+    autowire: true
   log.log_route_context:
     class: Drupal\log\ContextProvider\LogRouteContext
-    arguments: ['@current_route_match']
     tags:
       - { name: 'context_provider' }
