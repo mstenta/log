@@ -153,7 +153,11 @@ class LogRescheduleActionForm extends LogActionFormBase {
             $status->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
-          $log->setRevisionLogMessage($form_state->getValue('revision_message'));
+          $revision_message = $this->t('Rescheduled to @date.', ['@date' => $new_date->render()])->render();
+          if (!empty($form_state->getValue('revision_message'))) {
+            $revision_message .= ' ' . $form_state->getValue('revision_message');
+          }
+          $log->setRevisionLogMessage($revision_message);
           $log->setNewRevision(TRUE);
           $log->save();
         }
@@ -168,7 +172,11 @@ class LogRescheduleActionForm extends LogActionFormBase {
             $status->applyTransitionById('to_pending');
           }
           $log->set('timestamp', $new_date->getTimestamp());
-          $log->setRevisionLogMessage($form_state->getValue('revision_message'));
+          $revision_message = $this->t('Rescheduled to @date.', ['@date' => $new_date->render()])->render();
+          if (!empty($form_state->getValue('revision_message'))) {
+            $revision_message .= ' ' . $form_state->getValue('revision_message');
+          }
+          $log->setRevisionLogMessage($revision_message);
           $log->setNewRevision(TRUE);
           $log->save();
         }

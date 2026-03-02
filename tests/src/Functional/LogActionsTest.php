@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\log\Functional;
 
-use Drupal\log\Entity\LogInterface;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
  * Tests the Log form actions.
@@ -60,6 +60,7 @@ class LogActionsTest extends LogTestBase {
     $this->assertEquals(2, count($logs), 'There are two logs in the system.');
     $this->assertEquals($this->loggedInUser->id(), $logs[2]->getOwnerId(), 'Owner on the new log has been updated.');
     $this->assertEquals($new_timestamp, $logs[2]->get('timestamp')->value, 'Timestamp on the new log has been updated.');
+    $this->assertEquals('Cloned from <a href="' . $log->toUrl()->toString() . '">' . $log->label() . '</a>.', $logs[2]->get('revision_log_message')->value, 'A default revision message is set.');
   }
 
   /**
@@ -73,6 +74,7 @@ class LogActionsTest extends LogTestBase {
 
     // Create logs.
     $timestamp = \Drupal::time()->getRequestTime();
+    $original_logs = [];
     for ($i = 0; $i < 3; $i++) {
       $log = $this->createLogEntity([
         'uid' => $original_user->id(),
@@ -82,6 +84,7 @@ class LogActionsTest extends LogTestBase {
         'timestamp' => $timestamp,
       ]);
       $log->save();
+      $original_logs[$log->id()] = $log;
     }
 
     $num_of_logs = $this->storage->getQuery()->count()->accessCheck(TRUE)->execute();
@@ -102,6 +105,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit_clone = [];
     $edit_clone['date[date]'] = date('Y-m-d', $new_timestamp);
+    $edit_clone['revision_message'] = 'Lorem ipsum.';
     $this->submitForm($edit_clone, 'Clone');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->addressEquals('admin/content/log');
@@ -110,10 +114,26 @@ class LogActionsTest extends LogTestBase {
     /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(6, count($logs), 'There are six logs in the system.');
-    for ($i = 1; $i <= 3; $i++) {
-      $this->assertEquals($this->loggedInUser->id(), $logs[3 + $i]->getOwnerId(), 'Owner on the new log has been updated');
-      $this->assertEquals($new_timestamp, $logs[3 + $i]->get('timestamp')->value, 'Timestamp on the new log has been updated.');
+    // Filter out original logs.
+    $cloned_logs = array_filter($logs, function ($log) use ($original_logs) {
+      return !array_key_exists($log->id(), $original_logs);
+    });
+    foreach ($cloned_logs as $log) {
+      $this->assertEquals($this->loggedInUser->id(), $log->getOwnerId(), 'Owner on the new log has been updated');
+      $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the new log has been updated.');
     }
+    // The order of the cloned logs is unpredictable, so we build a list of
+    // expected revision messages, and a list of actual revision messages, then
+    // sort and compare.
+    $expected_revision_messages = array_map(function ($log) {
+      return 'Cloned from <a href="' . $log->toUrl()->toString() . '">' . $log->label() . '</a>. Lorem ipsum.';
+    }, $original_logs);
+    sort($expected_revision_messages);
+    $actual_revision_messages = array_map(function ($log) {
+      return $log->get('revision_log_message')->value;
+    }, $cloned_logs);
+    sort($actual_revision_messages);
+    $this->assertEquals($expected_revision_messages, $actual_revision_messages, 'The revision message includes a link to the original log and user-provided text.');
   }
 
   /**
@@ -157,6 +177,9 @@ class LogActionsTest extends LogTestBase {
     $log = reset($logs);
     $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
     $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
+    $new_date = new DrupalDateTime();
+    $new_date->setTimestamp($new_timestamp);
+    $this->assertEquals('Rescheduled to ' . $new_date->render() . '.', $log->get('revision_log_message')->value, 'A default revision message is set.');
   }
 
   /**
@@ -193,6 +216,7 @@ class LogActionsTest extends LogTestBase {
 
     $edit_reschedule = [];
     $edit_reschedule['date[date]'] = date('Y-m-d', $new_timestamp);
+    $edit_reschedule['revision_message'] = 'Lorem ipsum.';
     $this->submitForm($edit_reschedule, 'Reschedule');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->addressEquals('admin/content/log');
@@ -204,6 +228,9 @@ class LogActionsTest extends LogTestBase {
     foreach ($logs as $log) {
       $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
       $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
+      $new_date = new DrupalDateTime();
+      $new_date->setTimestamp($new_timestamp);
+      $this->assertEquals('Rescheduled to ' . $new_date->render() . '. Lorem ipsum.', $log->get('revision_log_message')->value, 'The revision message includes the default text and user-provided text.');
     }
   }
 
@@ -257,6 +284,9 @@ class LogActionsTest extends LogTestBase {
     $log = reset($logs);
     $this->assertEquals($new_timestamp, $log->get('timestamp')->value, 'Timestamp on the log has changed.');
     $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
+    $new_date = new DrupalDateTime();
+    $new_date->setTimestamp($new_timestamp);
+    $this->assertEquals('Rescheduled to ' . $new_date->render() . '.', $log->get('revision_log_message')->value, 'A default revision message is set.');
   }
 
   /**
@@ -298,6 +328,7 @@ class LogActionsTest extends LogTestBase {
     $edit_reschedule['type_of_date'] = 1;
     $edit_reschedule['amount'] = -1;
     $edit_reschedule['time'] = 'month';
+    $edit_reschedule['revision_message'] = 'Lorem ipsum.';
     $this->submitForm($edit_reschedule, 'Reschedule');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->addressEquals('admin/content/log');
@@ -306,10 +337,13 @@ class LogActionsTest extends LogTestBase {
     /** @var \Drupal\log\Entity\LogInterface[] $logs */
     $logs = $this->storage->loadMultiple();
     $this->assertEquals(3, count($logs), 'There are three logs in the system.');
-    $log_timestamps = array_map(function (LogInterface $log) {
-      return $log->get('timestamp')->value;
-    }, $logs);
-    $this->assertEquals($expected_timestamps, $log_timestamps, 'Logs have been rescheduled');
+    foreach ($logs as $log) {
+      $this->assertEquals($expected_timestamps[$log->id()], $log->get('timestamp')->value, 'Timestamp on the log has changed.');
+      $this->assertEquals('pending', $log->get('status')->value, 'Log has been set to pending.');
+      $new_date = new DrupalDateTime();
+      $new_date->setTimestamp($expected_timestamps[$log->id()]);
+      $this->assertEquals('Rescheduled to ' . $new_date->render() . '. Lorem ipsum.', $log->get('revision_log_message')->value, 'The revision message includes the default text and user-provided text.');
+    }
   }
 
 }

@@ -82,6 +82,7 @@ class LogActionsTest extends KernelTestBase {
     /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $storage->load($new_log->id());
     $this->assertEquals('done', $log->get('status')->value);
+    $this->assertEquals('Marked as done.', $log->get('revision_log_message')->value);
   }
 
   /**
@@ -100,6 +101,7 @@ class LogActionsTest extends KernelTestBase {
     /** @var \Drupal\log\Entity\LogInterface $log */
     $log = $storage->load($new_log->id());
     $this->assertEquals('pending', $log->get('status')->value);
+    $this->assertEquals('Marked as pending.', $log->get('revision_log_message')->value);
   }
 
 }

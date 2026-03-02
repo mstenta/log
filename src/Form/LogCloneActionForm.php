@@ -78,7 +78,14 @@ class LogCloneActionForm extends LogActionFormBase {
         $cloned_log = $log->createDuplicate();
         $cloned_log->set('timestamp', $new_date->getTimestamp());
         $cloned_log->setOwnerId($current_user->id());
-        $cloned_log->setRevisionLogMessage($form_state->getValue('revision_message'));
+        $revision_message = $this->t('Cloned from <a href=":url">@label</a>.', [
+          ':url' => $log->toUrl()->toString(),
+          '@label' => $log->label(),
+        ])->render();
+        if (!empty($form_state->getValue('revision_message'))) {
+          $revision_message .= ' ' . $form_state->getValue('revision_message');
+        }
+        $cloned_log->setRevisionLogMessage($revision_message);
 
         // Dispatch the log_clone event.
         $event = new LogEvent($cloned_log);

@@ -36,7 +36,6 @@ abstract class LogStateChangeBase extends EntityActionBase {
     $state_item = $log->get('status')->first();
     if ($state_item->getOriginalId() !== $this->targetState && $transition = $state_item->getWorkflow()->findTransition($state_item->getOriginalId(), $this->targetState)) {
       $state_item->applyTransition($transition);
-      $log->setNewRevision(TRUE);
 
       // Validate the entity before saving.
       $violations = $log->validate();
@@ -51,6 +50,11 @@ abstract class LogStateChangeBase extends EntityActionBase {
         );
         return;
       }
+
+      // Set revision log message.
+      $revision_message = $this->t('Marked as @status.', ['@status' => $this->targetState])->render();
+      $log->setRevisionLogMessage($revision_message);
+      $log->setNewRevision(TRUE);
 
       $log->save();
     }
