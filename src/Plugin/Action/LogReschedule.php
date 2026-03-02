@@ -2,18 +2,19 @@
 
 namespace Drupal\log\Plugin\Action;
 
+use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Action that reschedules a log entity.
- *
- * @Action(
- *   id = "log_reschedule_action",
- *   label = @Translation("Reschedules a log"),
- *   type = "log",
- *   confirm_form_route_name = "log.log_schedule_action_form"
- * )
  */
+#[Action(
+  id: 'log_reschedule_action',
+  label: new TranslatableMarkup('Reschedules a log'),
+  confirm_form_route_name: 'log.log_schedule_action_form',
+  type: 'log',
+)]
 class LogReschedule extends LogActionBase {
 
   /**

@@ -3,57 +3,63 @@
 namespace Drupal\log\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
+use Drupal\log\Form\LogTypeForm;
+use Drupal\log\LogTypeListBuilder;
 
 /**
  * Defines the Log type entity.
- *
- * @ConfigEntityType(
- *   id = "log_type",
- *   label = @Translation("Log type"),
- *   label_collection = @Translation("Log types"),
- *   label_singular = @Translation("log type"),
- *   label_plural = @Translation("log types"),
- *   label_count = @PluralTranslation(
- *     singular = "@count log type",
- *     plural = "@count log types",
- *   ),
- *   handlers = {
- *     "list_builder" = "Drupal\log\LogTypeListBuilder",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "form" = {
- *       "add" = "Drupal\log\Form\LogTypeForm",
- *       "edit" = "Drupal\log\Form\LogTypeForm",
- *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\DefaultHtmlRouteProvider",
- *     },
- *   },
- *   admin_permission = "administer log types",
- *   config_prefix = "type",
- *   bundle_of = "log",
- *   entity_keys = {
- *     "id" = "id",
- *     "label" = "label",
- *     "uuid" = "uuid"
- *   },
- *   links = {
- *     "canonical" = "/admin/structure/log-type/{log_type}",
- *     "add-form" = "/admin/structure/log-type/add",
- *     "edit-form" = "/admin/structure/log-type/{log_type}/edit",
- *     "delete-form" = "/admin/structure/log-type/{log_type}/delete",
- *     "collection" = "/admin/structure/log-type"
- *   },
- *   config_export = {
- *     "id",
- *     "label",
- *     "description",
- *     "name_pattern",
- *     "workflow",
- *     "new_revision",
- *   }
- * )
  */
+#[ConfigEntityType(
+  id: 'log_type',
+  label: new TranslatableMarkup('Log type'),
+  label_collection: new TranslatableMarkup('Log types'),
+  label_singular: new TranslatableMarkup('log type'),
+  label_plural: new TranslatableMarkup('log types'),
+  config_prefix: 'type',
+  entity_keys: [
+    'id' => 'id',
+    'label' => 'label',
+    'uuid' => 'uuid',
+  ],
+  handlers: [
+    'list_builder' => LogTypeListBuilder::class,
+    'view_builder' => EntityViewBuilder::class,
+    'form' => [
+      'add' => LogTypeForm::class,
+      'edit' => LogTypeForm::class,
+      'delete' => EntityDeleteForm::class,
+    ],
+    'route_provider' => [
+      'default' => DefaultHtmlRouteProvider::class,
+    ],
+  ],
+  links: [
+    'canonical' => '/admin/structure/log-type/{log_type}',
+    'add-form' => '/admin/structure/log-type/add',
+    'edit-form' => '/admin/structure/log-type/{log_type}/edit',
+    'delete-form' => '/admin/structure/log-type/{log_type}/delete',
+    'collection' => '/admin/structure/log-type',
+  ],
+  admin_permission: 'administer log types',
+  bundle_of: 'log',
+  label_count: [
+    'singular' => '@count log type',
+    'plural' => '@count log types',
+  ],
+  config_export: [
+    'id',
+    'label',
+    'description',
+    'name_pattern',
+    'workflow',
+    'new_revision',
+  ],
+)]
 class LogType extends ConfigEntityBundleBase implements LogTypeInterface {
 
   /**

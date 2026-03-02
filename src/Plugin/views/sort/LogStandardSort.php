@@ -2,13 +2,13 @@
 
 namespace Drupal\log\Plugin\views\sort;
 
+use Drupal\views\Attribute\ViewsSort;
 use Drupal\views\Plugin\views\sort\Date;
 
 /**
  * Sort handler for logs based on timestamp and id.
- *
- * @ViewsSort("log_standard")
  */
+#[ViewsSort('log_standard')]
 class LogStandardSort extends Date {
 
   /**

@@ -2,91 +2,104 @@
 
 namespace Drupal\log\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\Menu\DefaultEntityLocalTaskProvider;
+use Drupal\entity\QueryAccess\UncacheableQueryAccessHandler;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\Routing\RevisionRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\entity\UncacheableEntityPermissionProvider;
+use Drupal\log\Form\LogForm;
+use Drupal\log\LogListBuilder;
+use Drupal\log\LogStorage;
+use Drupal\log\LogViewsData;
 use Drupal\user\EntityOwnerTrait;
 
 /**
  * Defines the Log entity.
  *
  * @ingroup log
- *
- * @ContentEntityType(
- *   id = "log",
- *   label = @Translation("Log"),
- *   bundle_label = @Translation("Log type"),
- *   label_collection = @Translation("Logs"),
- *   label_singular = @Translation("log"),
- *   label_plural = @Translation("logs"),
- *   label_count = @PluralTranslation(
- *     singular = "@count log",
- *     plural = "@count logs",
- *   ),
- *   handlers = {
- *     "storage" = "Drupal\log\LogStorage",
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "\Drupal\log\LogListBuilder",
- *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
- *     "query_access" = "\Drupal\entity\QueryAccess\UncacheableQueryAccessHandler",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\log\LogViewsData",
- *     "form" = {
- *       "add" = "Drupal\log\Form\LogForm",
- *       "edit" = "Drupal\log\Form\LogForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *       "delete-multiple" = "\Drupal\entity\Routing\DeleteMultipleRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\entity\Menu\DefaultEntityLocalTaskProvider",
- *     },
- *   },
- *   base_table = "log",
- *   data_table = "log_field_data",
- *   revision_table = "log_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer log",
- *   collection_permission = "access log collection",
- *   entity_keys = {
- *     "id" = "id",
- *     "revision" = "revision_id",
- *     "bundle" = "type",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "uuid" = "uuid",
- *     "langcode" = "langcode",
- *   },
- *   bundle_entity_type = "log_type",
- *   field_ui_base_route = "entity.log_type.edit_form",
- *   common_reference_target = TRUE,
- *   permission_granularity = "bundle",
- *   links = {
- *     "canonical" = "/log/{log}",
- *     "add-page" = "/log/add",
- *     "add-form" = "/log/add/{log_type}",
- *     "collection" = "/admin/content/log",
- *     "delete-form" = "/log/{log}/delete",
- *     "delete-multiple-form" = "/log/delete",
- *     "edit-form" = "/log/{log}/edit",
- *     "revision" = "/log/{log}/revisions/{log_revision}/view",
- *     "revision-revert-form" = "/log/{log}/revisions/{log_revision}/revert",
- *     "version-history" = "/log/{log}/revisions",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message"
- *   },
- * )
  */
+#[ContentEntityType(
+  id: 'log',
+  label: new TranslatableMarkup('Log'),
+  label_collection: new TranslatableMarkup('Logs'),
+  label_singular: new TranslatableMarkup('log'),
+  label_plural: new TranslatableMarkup('logs'),
+  entity_keys: [
+    'id' => 'id',
+    'revision' => 'revision_id',
+    'bundle' => 'type',
+    'label' => 'name',
+    'owner' => 'uid',
+    'uuid' => 'uuid',
+    'langcode' => 'langcode',
+  ],
+  handlers: [
+    'storage' => LogStorage::class,
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'list_builder' => LogListBuilder::class,
+    'permission_provider' => UncacheableEntityPermissionProvider::class,
+    'query_access' => UncacheableQueryAccessHandler::class,
+    'view_builder' => EntityViewBuilder::class,
+    'views_data' => LogViewsData::class,
+    'form' => [
+      'add' => LogForm::class,
+      'edit' => LogForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
+    ],
+    'route_provider' => [
+      'default' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionRouteProvider::class,
+    ],
+    'local_task_provider' => [
+      'default' => DefaultEntityLocalTaskProvider::class,
+    ],
+  ],
+  links: [
+    'canonical' => '/log/{log}',
+    'add-page' => '/log/add',
+    'add-form' => '/log/add/{log_type}',
+    'collection' => '/admin/content/log',
+    'delete-form' => '/log/{log}/delete',
+    'delete-multiple-form' => '/log/delete',
+    'edit-form' => '/log/{log}/edit',
+    'revision' => '/log/{log}/revisions/{log_revision}/view',
+    'revision-revert-form' => '/log/{log}/revisions/{log_revision}/revert',
+    'version-history' => '/log/{log}/revisions',
+  ],
+  admin_permission: 'administer log',
+  collection_permission: 'access log collection',
+  permission_granularity: 'bundle',
+  bundle_entity_type: 'log_type',
+  bundle_label: new TranslatableMarkup('Log type'),
+  base_table: 'log',
+  data_table: 'log_field_data',
+  revision_table: 'log_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  label_count: [
+    'singular' => '@count log',
+    'plural' => '@count logs',
+  ],
+  field_ui_base_route: 'entity.log_type.edit_form',
+  common_reference_target: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+)]
 class Log extends RevisionableContentEntityBase implements LogInterface {
 
   use EntityChangedTrait;

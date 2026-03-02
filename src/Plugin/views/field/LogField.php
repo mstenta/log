@@ -2,13 +2,13 @@
 
 namespace Drupal\log\Plugin\views\field;
 
+use Drupal\views\Attribute\ViewsField;
 use Drupal\views\Plugin\views\field\EntityField;
 
 /**
  * Field handler to enable custom click-sort behavior for timestamp and id.
- *
- * @ViewsField("log_field")
  */
+#[ViewsField('log_field')]
 class LogField extends EntityField {
 
   /**

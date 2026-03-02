@@ -2,18 +2,19 @@
 
 namespace Drupal\log\Plugin\Action;
 
+use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Action that clones a log entity.
- *
- * @Action(
- *   id = "log_clone_action",
- *   label = @Translation("Clones a log"),
- *   type = "log",
- *   confirm_form_route_name = "log.log_clone_action_form"
- * )
  */
+#[Action(
+  id: 'log_clone_action',
+  label: new TranslatableMarkup('Clones a log'),
+  confirm_form_route_name: 'log.log_clone_action_form',
+  type: 'log',
+)]
 class LogClone extends LogActionBase {
 
   /**
