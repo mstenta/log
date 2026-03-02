@@ -2,7 +2,7 @@ name: Log
 type: module
 description: Provides a log entity type for real world record keeping.
 package: Log
-core_version_requirement: ^11
+core_version_requirement: ^11.3
 dependencies:
   - drupal:system
   - drupal:user
