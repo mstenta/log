@@ -25,7 +25,6 @@ include:
 ################
 variables:
   OPT_IN_TEST_CURRENT: 1
-  OPT_IN_TEST_PREVIOUS_MAJOR: 1
   _PHPSTAN_LEVEL: 5
   _PHPUNIT_CONCURRENT: '1'
 
