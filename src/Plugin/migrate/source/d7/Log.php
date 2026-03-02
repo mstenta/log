@@ -8,6 +8,10 @@ use Drupal\migrate_drupal\Plugin\migrate\source\d7\FieldableEntity;
 /**
  * Log source from database.
  *
+ * @deprecated in log:3.1.0 and is removed from log:4.0.0.
+ *   Drupal 7 is no longer supported.
+ * @see https://www.drupal.org/node/3576561
+ *
  * @MigrateSource(
  *   id = "d7_log",
  *   source_module = "log"
