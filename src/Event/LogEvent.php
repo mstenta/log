@@ -10,10 +10,49 @@ use Drupal\log\Entity\LogInterface;
  */
 class LogEvent extends Event {
 
+  /**
+   * Log presave event.
+   *
+   * @deprecated in log:3.1.0 and is removed from log:4.0.0.
+   *    Use hook_entity_presave() instead.
+   *
+   * @see https://www.drupal.org/node/3576562
+   */
   const PRESAVE = 'log_presave';
+
+  /**
+   * Log insert event.
+   *
+   * @deprecated in log:3.1.0 and is removed from log:4.0.0.
+   *    Use hook_entity_insert() instead.
+   *
+   * @see https://www.drupal.org/node/3576562
+   */
   const INSERT = 'log_insert';
+
+  /**
+   * Log update event.
+   *
+   * @deprecated in log:3.1.0 and is removed from log:4.0.0.
+   *    Use hook_entity_update() instead.
+   *
+   * @see https://www.drupal.org/node/3576562
+   */
   const UPDATE = 'log_update';
+
+  /**
+   * Log delete event.
+   *
+   * @deprecated in log:3.1.0 and is removed from log:4.0.0.
+   *    Use hook_entity_delete() instead.
+   *
+   * @see https://www.drupal.org/node/3576562
+   */
   const DELETE = 'log_delete';
+
+  /**
+   * Log clone event.
+   */
   const CLONE = 'log_clone';
 
   /**
