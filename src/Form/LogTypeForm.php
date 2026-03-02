@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\log\Form;
 
 use Drupal\Core\DependencyInjection\AutowireTrait;

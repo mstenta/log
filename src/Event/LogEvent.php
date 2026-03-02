@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\log\Event;
 
 use Drupal\Component\EventDispatcher\Event;

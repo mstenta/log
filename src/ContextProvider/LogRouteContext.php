@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\log\ContextProvider;
 
 use Drupal\Core\Cache\CacheableMetadata;

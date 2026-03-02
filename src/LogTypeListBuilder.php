@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\log;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
