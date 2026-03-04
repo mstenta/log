@@ -3,6 +3,7 @@
 namespace Drupal\Tests\log\Kernel;
 
 use Drupal\Tests\log\Traits\LogCreationTrait;
+use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
 use Drupal\views\Tests\ViewTestData;
 use Drupal\views\Views;
@@ -15,6 +16,7 @@ use Drupal\views\Views;
 class SortTimestampIdTest extends ViewsKernelTestBase {
 
   use LogCreationTrait;
+  use UserCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -55,6 +57,7 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
     parent::setUp();
 
     $this->installEntitySchema('log');
+    $this->installEntitySchema('user');
     $this->installConfig(['log', 'log_test']);
 
     ViewTestData::createTestViews(get_class($this), ['log_test']);
@@ -89,6 +92,12 @@ class SortTimestampIdTest extends ViewsKernelTestBase {
       ['name' => $second_entity->get('name')->value, 'id' => $second_entity->id()],
       ['name' => $first_entity->get('name')->value, 'id' => $first_entity->id()],
     ];
+
+    // Create and login a user with access to view any log. This is necessary
+    // for logs to appear in the Views tested below, because log entities use
+    // the entity module's query_access handler.
+    $user = $this->createUser(['view any log']);
+    $this->container->get('current_user')->setAccount($user);
   }
 
   /**
