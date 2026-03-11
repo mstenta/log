@@ -43,7 +43,7 @@ class LogCRUDTest extends LogTestBase {
     ];
     $this->drupalGet('log/add/default');
 
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
 
     $result = $this->storage
       ->getQuery()
@@ -89,7 +89,7 @@ class LogCRUDTest extends LogTestBase {
       'name[0][value]' => $this->randomMachineName(),
     ];
     $this->drupalGet($log->toUrl('edit-form'));
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
 
     $this->assertSession()->pageTextContains($edit['name[0][value]']);
   }
@@ -105,7 +105,7 @@ class LogCRUDTest extends LogTestBase {
     $log_id = $log->id();
     $this->drupalGet($log->toUrl('delete-form'));
 
-    $this->submitForm([], $this->t('Delete'));
+    $this->submitForm([], 'Delete');
     $this->assertSession()->responseContains($this->t('The @entity-type %label has been deleted.', [
       '@entity-type' => $log->getEntityType()->getSingularLabel(),
       '%label' => $label,

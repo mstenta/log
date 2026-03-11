@@ -23,7 +23,7 @@ class LogNamePatternTest extends LogTestBase {
       'status' => 'done',
     ];
     $this->drupalGet('log/add/name_pattern');
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
 
     $result = $this->storage
       ->getQuery()
@@ -49,7 +49,7 @@ class LogNamePatternTest extends LogTestBase {
     ];
     $this->drupalGet('log/add/name_pattern');
 
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
 
     $result = $this->storage
       ->getQuery()
@@ -78,7 +78,7 @@ class LogNamePatternTest extends LogTestBase {
       'name[0][value]' => $this->randomMachineName(),
     ];
     $this->drupalGet($log->toUrl('edit-form'));
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
     $this->assertSession()->pageTextContains($edit['name[0][value]']);
 
     // Test that clearing the name forces it to be auto-generated.
@@ -87,7 +87,7 @@ class LogNamePatternTest extends LogTestBase {
       'status' => 'pending',
     ];
     $this->drupalGet($log->toUrl('edit-form'));
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
     $this->assertSession()->pageTextContains($log->id() . ' pending');
 
     // Test that updating a log with an auto-generated name automatically
@@ -96,7 +96,7 @@ class LogNamePatternTest extends LogTestBase {
       'status' => 'done',
     ];
     $this->drupalGet($log->toUrl('edit-form'));
-    $this->submitForm($edit, $this->t('Save'));
+    $this->submitForm($edit, 'Save');
     $this->assertSession()->pageTextContains($log->id() . ' done');
   }
 
