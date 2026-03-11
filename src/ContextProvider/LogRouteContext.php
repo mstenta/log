@@ -58,7 +58,7 @@ class LogRouteContext implements ContextProviderInterface {
    * {@inheritdoc}
    */
   public function getAvailableContexts() {
-    $context = EntityContext::fromEntityTypeId('log', $this->t('Log from URL'));
+    $context = EntityContext::fromEntityTypeId('log', 'Log from URL');
     return ['log' => $context];
   }
 
