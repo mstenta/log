@@ -7,12 +7,14 @@ use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
 use Drupal\views\Tests\ViewTestData;
 use Drupal\views\Views;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for Drupal\log\Plugin\views\sort\LogTimestampIdSort handler.
  *
  * @group Log
  */
+#[RunTestsInSeparateProcesses]
 class SortTimestampIdTest extends ViewsKernelTestBase {
 
   use LogCreationTrait;

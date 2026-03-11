@@ -5,6 +5,7 @@ namespace Drupal\Tests\log\Kernel;
 use Drupal\Component\Serialization\Json;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\Tests\log\Traits\LogCreationTrait;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @group Log
  */
+#[RunTestsInSeparateProcesses]
 class NameAutocompleteTest extends EntityKernelTestBase {
 
   use LogCreationTrait;
