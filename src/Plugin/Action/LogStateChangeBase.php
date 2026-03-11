@@ -87,7 +87,7 @@ abstract class LogStateChangeBase extends EntityActionBase {
             '%workflow' => $workflow->getLabel(),
             '%target_state' => $this->targetState,
           ],
-        ),
+        )->render(),
       ));
     }
     // Else check that a transition exists to the desired target state.
