@@ -3,13 +3,13 @@
 namespace Drupal\Tests\log\Functional;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests the Log name pattern.
- *
- * @group Log
  */
+#[Group('log')]
 #[RunTestsInSeparateProcesses]
 class LogNamePatternTest extends LogTestBase {
 

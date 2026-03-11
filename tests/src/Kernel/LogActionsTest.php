@@ -4,13 +4,13 @@ namespace Drupal\Tests\log\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\log\Traits\LogCreationTrait;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for log actions.
- *
- * @group Log
  */
+#[Group('log')]
 #[RunTestsInSeparateProcesses]
 class LogActionsTest extends KernelTestBase {
 

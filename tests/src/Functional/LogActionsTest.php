@@ -3,13 +3,13 @@
 namespace Drupal\Tests\log\Functional;
 
 use Drupal\log\Entity\LogInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests the Log form actions.
- *
- * @group Log
  */
+#[Group('log')]
 #[RunTestsInSeparateProcesses]
 class LogActionsTest extends LogTestBase {
 
