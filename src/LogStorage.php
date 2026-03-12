@@ -77,10 +77,10 @@ class LogStorage extends SqlContentEntityStorage {
     if (empty($current_name)) {
       $set_name = TRUE;
     }
-    elseif ($update && !empty($entity->original)) {
+    elseif ($update && !empty($entity->getOriginal())) {
 
       // Generate a log name using the original entity.
-      $original_generated_name = $this->generateLogName($entity->original);
+      $original_generated_name = $this->generateLogName($entity->getOriginal());
 
       // Compare the current log name to what would have been the original
       // auto-generated name, to determine if the name was auto-generated
@@ -93,7 +93,7 @@ class LogStorage extends SqlContentEntityStorage {
     // We must run the parent method before we set the name, so that new logs
     // have an ID that can be used in token replacements.
     // Also, we must run the parent method after the logic above, because the
-    // parent method unsets $entity->original.
+    // parent method unsets $entity->originalEntity.
     parent::doPostSave($entity, $update);
 
     // Set the log name, if necessary.
