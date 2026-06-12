@@ -88,6 +88,7 @@ use Drupal\user\EntityOwnerTrait;
   base_table: 'log',
   data_table: 'log_field_data',
   revision_table: 'log_revision',
+  revision_data_table: 'log_field_revision',
   translatable: TRUE,
   show_revision_ui: TRUE,
   label_count: [
